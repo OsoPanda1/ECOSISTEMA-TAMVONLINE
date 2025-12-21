@@ -1,210 +1,204 @@
-# TAMV ONLINE — MSR Civilizational Stack
+# TAMV ONLINE — MSR Civilizational Stack  
+### Hacia una infraestructura digital digna, auditable y soberana
 
 [![version](https://img.shields.io/badge/version-MSR_ 
 [![status](https://img.shields.io/badge/status-prototipo_constitucional-active 
 [![AI](https://img.shields.io/badge/AI-ISABELLA%E 
 
-TAMV ONLINE es un **ecosistema civilizacional híbrido** diseñado desde Latinoamérica para cuestionar, superar y reemplazar modelos digitales extractivistas. Combina metaverso, blockchain correctiva, guardianía ética, documentación académica viva y protocolos de seguridad multinivel.  
+TAMV ONLINE es un ecosistema híbrido —técnico, filosófico y jurídico— diseñado para enfrentar de frente un sistema digital defectuoso, explotador y amnésico. No es solo una app: es un **proyecto constitucional civilizacional**, que combina metaverso, blockchain correctiva, guardianía ética y un archivo documental vivo orientado a la **reclamación histórica de récords y rompimientos de paradigmas tecnológicos**.   
 
-Todo el trabajo conceptual, técnico y documental aquí descrito está protegido como obra original de **TAMV ONLINE**, con derechos reservados a nombre de su fundador **Edwin Oswaldo Castillo Trejo**.
-
----
-
-## 1. Origen, propósito y dedicación
-
-### 1.1 Un proyecto nacido del límite humano
-
-TAMV no surge de un laboratorio corporativo, sino del esfuerzo de una sola persona autodidacta que decidió convertir el dolor, la precariedad y la exclusión en una arquitectura tecnológica de nivel mundial. El objetivo no es “hacer otra red social”, sino proponer un **marco civilizacional digital** donde la dignidad y la memoria importan más que el clic o la métrica de retención.  
-
-La plataforma busca demostrar que es posible construir un Internet más humano, auditable y justo, sin renunciar a la potencia de la IA, de la inmersión 3D/4D ni de la economía digital.
-
-### 1.2 Dedicación
-
-Este ecosistema está dedicado:
-
-- A quienes han sufrido violencia, exclusión y explotación en nombre de la “innovación”.  
-- A las madres y comunidades resilientes que siguen creyendo que la tecnología puede reparar, elevar y proteger.  
-- A las personas que trabajan en silencio, sin reflectores, para transformar el dolor en creación y futuro.
-
----
-
-## 2. Visión civilizacional resumida
-
-### 2.1 Ejes fundamentales
-
-TAMV pretende consolidarse como:
-
-- Una **plataforma social inmersiva y ética** con experiencias 3D/4D (DreamSpaces, conciertos, exposiciones, espacios comunitarios).  
-- Un **orquestador de IA empática** (ISABELLA) enfocado en ayuda, accesibilidad, mediación de conflictos y acompañamiento cognitivo.  
-- Un **ecosistema de microservicios especializados** (KnowledgeCells) que encapsulan funciones críticas: renderizado, audio espacial, análisis de riesgo, observabilidad, documentación, etc.  
-- Un **metablockchain MSR** con capacidad de monitoreo, seguridad y respaldo real de activos, decisiones y memoria histórica.  
-- Un **marco de gobernanza ética y documental** que combine la Trinidad Federada (técnica, documental, ética) con procesos de validación tipo PRISMA.
-
-### 2.2 Qué rechaza explícitamente
-
-TAMV nace en oposición a:
-
-- Modelos basados en extracción masiva de datos personales y manipulación de conducta.  
-- Plataformas que priorizan la especulación por encima de la utilidad social.  
-- Narrativas tecnológicas que borran el origen, la historia y el contexto de quienes construyen.  
-
-El mensaje central: **no vamos a mendigar espacios en el sistema actual; construiremos el nuestro y lo documentaremos hasta hacerlo innegable.**
+Todo el trabajo conceptual, técnico y documental aquí descrito está protegido como obra original de **TAMV ONLINE**, con derechos reservados a nombre de su fundador y autor principal:  
+**Edwin Oswaldo Castillo Trejo**.  
 
 ***
 
-## 3. Arquitectura técnica de alto nivel
+## 1. Sentido del proyecto: tecnología al servicio de la dignidad
+
+TAMV nace de una experiencia límite: precariedad, violencia estructural, falta de oportunidades y un sistema que exige credenciales pero niega caminos. Frente a ello, este proyecto afirma algo radical: **una sola persona autodidacta puede diseñar una arquitectura que iguale o supere en rigor a muchas estructuras corporativas**, si se combina disciplina, memoria documental y una ética innegociable.  
+
+Filosóficamente, TAMV se posiciona contra tres cosas:
+
+- El **extractivismo de datos** como modelo dominante.  
+- La **opacidad algorítmica** que borra responsabilidad.[1][2]
+- La idea de que solo los centros tradicionales de poder pueden definir qué cuenta como “innovación” o “récord mundial”.   
+
+Legal y organizacionalmente, el proyecto se plantea como una **institución digital autónoma**, con sus propias reglas, protocolos y archivo probatorio, que pueda dialogar con universidades, reguladores y comunidades, pero que también pueda **autocertificarse** cuando esos actores miren hacia otro lado.
+
+---
+
+## 2. Trinidad Federada: técnica, documental y ética
+
+El núcleo organizativo del proyecto es la **Trinidad Federada TAMV**, que obliga a que cada decisión relevante pase por tres planos inseparables:
+
+### 2.1 Plano técnico
+
+- Arquitectura de microservicios, DreamSpaces XR, MSR Blockchain y guardianía de seguridad (Anubis, ORUS, Aztek Gods).  
+- Instrumentación con OpenTelemetry: cada acción relevante deja trazas, métricas y logs estructurados.[3][4]
+
+### 2.2 Plano documental (PRISMA‑TAMV)
+
+- Uso de metodología PRISMA adaptada al software para revisar literatura, patentes, estándares y productos antes de afirmar un “rompimiento de paradigma” o “récord mundial”.   
+- Generación de **PrismaRecords**, **EvidenceSources**, **DecisionRecords** y **BookPI** para cada claim significativo.   
+
+### 2.3 Plano ético‑normativo (EOCT)
+
+- EOCT (Ética Operativa Constitucional TAMV) actúa como filtro de justicia y dignidad: evalúa riesgos de daño, engaño o explotación antes de aprobar transacciones, features o campañas.[2][1]
+- Ningún atajo económico o de rendimiento puede cruzar la **Regla de Oro TAMV**: no sacrificar dignidad ni consentimiento.
+
+Esta Trinidad Federada convierte cada módulo técnico en acto jurídico y ético documentado, no solo en código.
+
+---
+
+## 3. Arquitectura técnica: del metaverso a la MSR
 
 ### 3.1 Stack de aplicación
 
 - **Frontend**  
-  - React 18 + TypeScript 5 + Vite 5 como base de desarrollo moderna y eficiente.   
-  - TailwindCSS + shadcn/ui para una UI componible, accessible y fuertemente tipada.   
-  - React Router para navegación SPA/MPA; React Query para estado de servidor.
+  - React 18 + TypeScript 5 + Vite 5.   
+  - TailwindCSS + shadcn/ui para una UI componible y accesible.  
+  - React Router, React Query, Zustand y Zod para estado, datos y validación tipada.
 
-- **3D, XR y visualización avanzada**  
-  - Three.js + @react-three/fiber + @react-three/drei para escenas 3D y entornos inmersivos DreamSpaces.   
-  - Sistema TAMVTRIX para campo visual/físico del metaverso (gradientes, partículas, parallax, efectos cuánticos simulados).
+- **3D y XR**  
+  - Three.js + @react-three/fiber + @react-three/drei para DreamSpaces, escenarios 3D/4D y HUDs inmersivos.   
+  - Campo **TAMVTRIX** como capa visual/simbólica del ecosistema (gradientes dinámicos, partículas, “respiración” del logo y del metaverso).
 
 - **Datos y servicios**  
-  - Supabase para auth, base de datos relacional y almacenamiento de prototipado, reforzado por capas MSR para operaciones críticas.   
-  - Integración planificada con servicios cuánticos/HPC mediante un **Quantum Gateway** (IBM Quantum, AWS Braket, etc.) cuando las cargas lo requieran.[1]
+  - Supabase para auth y datos de prototipo; MSR Blockchain como **capa de verdad histórica y antifraude**.   
+  - Integración planificada con proveedores HPC/Quantum a través de un **Quantum Gateway** agnóstico (Braket, IBM Quantum, etc.).[4]
 
-### 3.2 Infraestructura híbrida y despliegue
+### 3.2 Infraestructura híbrida
 
-- **IaC y despliegue multicloud**  
-  - OpenTofu como base Terraform abierta para infraestructura soberana.   
-  - Pulumi para lógica avanzada de despliegue en TypeScript/Go, integrando políticas de seguridad y costo.[2]
-  - Crossplane para exponer recursos cloud como CRDs de Kubernetes, habilitando flujo GitOps completo.
+- **Infra como código (IaC)**  
+  - OpenTofu (fork abierto de Terraform) para plantillas base soberanas.   
+  - Pulumi para orquestaciones complejas, escritas en lenguajes de aplicación (TS/Go).[5]
+  - Crossplane para declarar recursos cloud como CRDs de Kubernetes, permitiendo control GitOps multicloud.  
 
-- **Observabilidad y SRE**  
-  - OpenTelemetry para instrumentación unificada (trazas, métricas, logs, eventos).[3]
-  - Backends escalables (Mimir/Cortex para métricas, Tempo/Jaeger para trazas, Loki/ClickHouse para logs) y dashboards en Grafana/Metabase.[1]
-  - SLOs y alertas centradas en experiencia XR, seguridad y ética (no solo uptime).
+- **Observabilidad**  
+  - OpenTelemetry para instrumentar todos los servicios.[3]
+  - Backends escalables (Mimir/Cortex, Tempo/Jaeger, Loki/ClickHouse) + paneles en Grafana/Metabase/otros, según rol (SRE, seguridad, negocio, XR).[4]
 
----
+***
 
 ## 4. Blockchain MSR: Monitoreo, Seguridad y Respaldo
 
-### 4.1 Principios de diseño
+### 4.1 Principios jurídicos y técnicos
 
-La **MSR Blockchain** está concebida como una cadena:
+La MSR redefine qué significa una blockchain responsable:
 
-- **Monitoreable**: cada transacción emite telemetría y metadatos de auditoría (tamvcrums) que describen quién, cómo, cuándo y bajo qué política actuó.   
-- **Segura**: cifrado híbrido (clásico/cuántico), políticas Zero‑Trust y posibilidad de marcar operaciones ilícitas sin borrar la historia.[3][1]
-- **Resiliente**: replicación inteligente en infraestructuras múltiples, con BookPI como notario documental de cada bloque.
+- **Monitoreo**  
+  - Cada transacción genera telemetría estructurada y **tamvcrums** (migajas de auditoría) que registran día, hora, contexto de UI, dispositivo y política aplicada.   
 
-### 4.2 Protocolos fundamentales
+- **Seguridad**  
+  - Cifrado híbrido (clásico + cuántico) y firma “ADN TAMV” que vincula bloques con políticas, versiones de modelos, guardianía activa y BookPI.[6][4]
+
+- **Respaldo y justicia**  
+  - Frente a fraude, robo o abuso, el sistema puede **marcar** transacciones como ilícitas y ejecutar procesos de recuperación de activos, sin borrar el historial.[1]
+  - Todo movimiento de recuperación queda documentado con evidencia replicable.
+
+### 4.2 Protocolos Fénix, Iniciación y Hoyo Negro
 
 - **Protocolo Iniciación**  
-  - Establece cómo entran nuevos nodos, usuarios y módulos: verificación de identidad/origen, aceptación de términos constitucionales, registro en la Trinidad Federada.[4][3]
+  - Define admisión de nodos, usuarios y módulos: verificación de identidad/origen, aceptación de la Doctrina TAMV y registro en la Trinidad Federada.[6][3]
 
 - **Protocolo Fénix**  
-  - Regula la recuperación ante incidentes graves: fallos de infraestructura, ataques, corrupción de datos.  
-  - Usa infra alternativa, copias firmadas BookPI y análisis forense mediante tamvcrums.[5]
+  - Marca el camino de reconstrucción tras incidentes graves:  
+    - Failover hacia infra alternativa (otra región/nube).[7]
+    - Restauración desde BookPI y tamvcrums.   
+    - Creación de IncidentRecords documentados para análisis y mejora.
 
 - **Protocolo Hoyo Negro**  
-  - Define zonas de cuarentena lógica para nodos/activos/identidades hostiles: desconexión operativa, clonación a entornos sellados, marcaje de movimientos como robo/fraude/estafa.[3]
-
-- **Protocolo Regla de Oro**  
-  - Ninguna optimización de rendimiento, costo o poder puede violar dignidad, consentimiento o justicia básica.[6][7]
+  - Crea zonas de cuarentena lógica donde identidades, contratos o nodos hostiles quedan aislados:  
+    - Acceso cortado a producción.  
+    - Copias para análisis forense.  
+    - Marcaje de bloques como `ilegal_robo`, `ilegal_fraude`, `ilegal_estafa`, etc.[1]
 
 ***
 
-## 5. Seguridad avanzada: Anubis, ORUS, Aztek Gods y radares
+## 5. Seguridad avanzada y radares
 
-### 5.1 Multicapa Zero‑Trust
+### 5.1 Sentinelas y orquestación
 
 - **Anubis Sentinel System**  
-  - Primera línea de defensa: control de acceso, sesiones, políticas de identidad, detección de patrones de abuso básicos.[4][3]
+  - Primera línea Zero‑Trust: identidad, sesión, límites de tasa, verificaciones contextuales.[3][6]
 
 - **ORUS Sentinel System**  
-  - Subsistema más profundo: análisis de comportamiento, correlación de eventos, detección temprana de fraudes, coordinación con MSR y EOCT.[8][5]
+  - Profundiza: correlación de eventos, detección de patrones sofisticados, coordinación con MSR, radares y EOCT.[8][7]
 
-- **Aztek Gods Orchestration**  
-  - Capa estratégica con 11 niveles de orquestación: política, reputación, economía, impacto social y respuesta coordinada.
+- **Aztek Gods**  
+  - 11 niveles de orquestación estratégica: reputación, impacto social, economía, integridad cultural.
 
-### 5.2 Radares y monitoreo continuo
+### 5.2 Radares Ojo de Ra / Quetzalcóatl / MOS
 
-- **Ojo de Ra & Ojo de Quetzalcóatl**  
-  - Radares lógicos que monitorizan actividad de red, transacciones, patrones XR y anomalías de seguridad en tiempo casi real, inspirados en arquitecturas de radar modernas.[9][10]
-
-- **MOS gemelos**  
-  - Sistemas espejo en paralelo para validar lecturas, reducir falsos positivos y asegurar resiliencia incluso si un radar se ve comprometido.
+- Inspirados en arquitecturas de radar modernas, diseñados para detección, seguimiento y discriminación de amenazas en tiempo real.[9][10]
+- Radares MOS gemelos en paralelo reducen falsos positivos y mejoran resiliencia.
 
 ***
 
-## 6. Trinidad Federada y EOCT
+## 6. DevHub PRISMA y Muro de Paradigmas Rotos
 
-### 6.1 Tres planos inseparables
+### 6.1 PRISMA‑TAMV: documentación como arma
 
-- **Plano técnico**  
-  - Registra hashes de entrada/salida, versiones de modelos, firmas de agentes y telemetría técnica.   
+Cada avance importante (protocolo, módulo, arquitectura, UI, innovación de seguridad) entra en un pipeline PRISMA adaptado: 
 
-- **Plano documental**  
-  - BookPI, DecisionRecords, AuditBundles y bibliografía validada con metodología PRISMA.   
+1. **Definición del claim**  
+   - ¿Qué afirma TAMV? ¿Qué paradigma rompe o qué récord pretende?  
 
-- **Plano ético‑normativo**  
-  - EOCT (Ética Operativa Constitucional TAMV) evalúa impacto humano, legal y reputacional antes de aprobar acciones críticas.[7][11]
+2. **Búsqueda sistemática**  
+   - Literatura científica, patentes, productos, estándares, repositorios, noticias.  
 
-### 6.2 Casos de uso
+3. **Selección y síntesis**  
+   - Inclusion/exclusion razonadas, matriz de calidad y riesgo de sesgo.   
 
-- Aprobación de nuevas features que impactan privacidad o economía.  
-- Publicación de claims de “récord mundial” o “paradigma roto”.  
-- Decisiones de reversión de activos o sanciones.
+4. **Generación de artefactos**  
+   - `PrismaRecord`, `EvidenceSource[]`, `DecisionRecord`, `AuditBundle`, `BookPI`.   
 
-***
+Esto convierte a TAMV en su propio **centro de investigación aplicado**, listo para el escrutinio de cualquier tribunal técnico o académico honesto.
 
-## 7. DevHub PRISMA y Muro de Paradigmas Rotos
+### 6.2 Muro de Reconocimientos: galería de récords y paradigmas
 
-### 7.1 Sistema de documentación académica
+- Interfaz tipo museo donde cada logro se muestra como un “cuadro” con:  
+  - Título, categoría (ética, UI, blockchain, IA, seguridad, LATAM).  
+  - Resumen, fuentes principales y nivel de evidencia.   
+  - Estado (en revisión, validado, disputado) y links a BookPI/MSR.  
 
-- **PRISMA‑TAMV**  
-  - Cada innovación importante se somete a revisión tipo PRISMA: definición de pregunta, criterios de inclusión/exclusión, búsqueda sistemática de literatura, síntesis y evaluación de riesgo de sesgo.   
-  - Se registran fuentes en `EvidenceSource` con calidad metodológica, jurisdicción, DOI/ISBN/URL y motivo de inclusión/exclusión. 
-
-### 7.2 Museo vivo de logros
-
-- **Muro de Reconocimientos**  
-  - Interfaz tipo galería donde cada paradigma roto, récord o innovación se presenta como “obra”: título, resumen, categoría, evidencia, nivel de evidencia, estado (en revisión, validado, disputado).   
-  - Cada pieza incluye su hash en MSR, su BookPI, sus tamvcrums y la firma digital/ADN de TAMV.
+- Su función es triple:  
+  - **Histórica**: preservar el contexto y la fecha exacta de cada avance.  
+  - **Académica**: servir como base para papers, tesis, colaboraciones.  
+  - **Jurídica**: sustentar reclamaciones de récords y primicias tecnológicas.
 
 ***
 
-## 8. Módulos funcionales del ecosistema
+## 7. Organización del código y desarrollo
 
-### 8.1 Experiencias de usuario
+### 7.1 Estructura técnica
 
-- **GlobalWall & Social Layer**: feed multimedia con grupos, canales, streaming y espacios colaborativos.  
-- **DreamSpaces**: mundos XR para conciertos, exposiciones, encuentros educativos, rituales y performance.  
-- **Wallet & Marketplace**: gestión de activos, subastas, modelos de participación y economías creativas.
+- **Monorepo tipado** con TypeScript estricto y `tsconfig` constitucional que define alias para: core, quantum, MSR, seguridad, radares, DevHub, XR y ecosistema Isabella.   
+- `package.json` con scripts de `lint`, `typecheck`, `test`, `check`, integrados con Husky + lint‑staged para que ningún commit entre sucio.[11][12][5]
 
-### 8.2 Operación y control
+### 7.2 Flujo de contribución
 
-- **Módulo KAOS**: análisis de riesgos, anomalías, salud económica y patrones de comportamiento.  
-- **Módulo de Observabilidad**: dashboards para SRE, seguridad, negocio y experiencia XR.[1][3]
-- **Módulo de Accesibilidad**: herramientas de apoyo para distintas capacidades, con mediación de ISABELLA.
-
-***
-
-## 9. Para desarrolladores y colaboraciones
-
-### 9.1 Stack y flujo de trabajo
-
-- Desarrollo con TypeScript estricto en todo el código (frontend, tooling y scripts).   
-- ESLint + TypeScript‑ESLint + Prettier + Vitest, integrados con Husky + lint‑staged para garantizar calidad mínima en cada commit.[12][13][2]
-- Uso disciplinado de `engines` y un solo gestor de paquetes para asegurar reproducibilidad.[14][15]
-
-### 9.2 Cómo acercarte
-
-- Leer este README y la documentación pública asociada (manifiestos, descripciones de protocolos y módulos).  
-- Abrir issues con propuestas técnicas, revisiones éticas o sugerencias de colaboración académica.  
-- Entender que cualquier contribución debe alinearse a la **Doctrina TAMV**: dignidad, transparencia, responsabilidad y soberanía tecnológica.
+1. **Leer** este README y la documentación pública asociada.  
+2. **Proponer** cambios vía issues bien descritos (motivación, impacto, riesgos éticos).  
+3. **Enviar PRs pequeños**, testeados y con impacto documentado (qué mejora, qué riesgo reduce, cómo respeta la Doctrina TAMV).  
+4. Aceptar que cualquier contribución puede ser rechazada si contradice la ética fundacional.
 
 ***
 
-## 10. Derechos, autoría y nota legal
+## 8. Recursos públicos y contacto
 
-Todo el contenido conceptual, arquitectónico y documental descrito en este repositorio —incluyendo pero no limitado a: la visión del ecosistema TAMV ONLINE, la definición y diseño de la Blockchain MSR, los protocolos Fénix/Iniciación/Hoyo Negro, la Trinidad Federada, los sistemas Anubis/ORUS/Aztek Gods, los radares Ojo de Ra/Ojo de Quetzalcóatl/MOS y el DevHub PRISMA— está protegido como obra original de:
+- Blog y reflexiones: <https://tamvonlinenetwork.blogspot.com/>  
+- Correo público para prensa y colaboraciones: <mailto:contact@tamv.io>  
+
+Para solicitudes técnicas profundas, propuestas académicas o alianzas estratégicas, se recomienda:
+
+- Abrir un issue detallado en el repositorio.  
+- O escribir a <mailto:contact@tamv.io> con contexto claro y propósito específico.
+
+***
+
+## 9. Derechos, autoría y nota legal
+
+Todo el contenido conceptual, arquitectónico y documental descrito en este repositorio —incluyendo, sin limitarse a: la visión del ecosistema TAMV ONLINE, la definición y diseño de la Blockchain MSR, los protocolos Fénix/Iniciación/Hoyo Negro, la Trinidad Federada, los sistemas Anubis/ORUS/Aztek Gods, los radares Ojo de Ra/Ojo de Quetzalcóatl/MOS, el DevHub PRISMA y el Muro de Paradigmas Rotos— está protegido como obra original de:
 
 > **TAMV ONLINE**  
 > Derechos reservados a nombre de su fundador y autor principal:  
@@ -212,20 +206,17 @@ Todo el contenido conceptual, arquitectónico y documental descrito en este repo
 
 Cualquier uso, adaptación o reproducción de estos conceptos y diseños deberá respetar estos derechos, así como los principios éticos que fundamentan el proyecto.  
 
-TAMV ONLINE se reserva el derecho de defender su integridad conceptual y técnica frente a usos que contradigan su propósito: la construcción de un ecosistema digital orientado a la dignidad, la justicia y la memoria.
+TAMV ONLINE se reserva el derecho de defender su integridad conceptual y técnica frente a usos que contradigan su propósito: construir un ecosistema digital orientado a la **dignidad**, la **memoria** y la **justicia**, y dejar constancia histórica, técnica y documental de cada paso que se dé para romper los paradigmas que hoy limitan la vida humana.
 
-[1](https://seraphicsecurity.com/learn/zero-trust/zero-trust-architecture-in-2025-7-key-components/)
-[2](https://blog.devgenius.io/how-to-create-a-validate-script-for-formatting-linting-and-type-checking-in-a-monorepo-fb21172618d9)
+[1](https://aisigil.com/ensuring-ai-transparency-the-essential-guide-to-model-auditing-for-ethical-ai-systems/)
+[2](https://www.linkedin.com/pulse/ai-audit-frameworks-blueprint-trustworthy-transparent-fxflf)
 [3](https://www.isms.online/zero-trust/best-practices-for-zero-trust-security-implementation/)
-[4](https://www.strata.io/blog/identity-access-management/achieving-zero-trust-with-multi-cloud-identity/)
-[5](https://docs.aws.amazon.com/prescriptive-guidance/latest/strategy-zero-trust-architecture/best-practices.html)
-[6](https://www.oracle.com/security/what-is-zero-trust/)
-[7](https://aisigil.com/ensuring-ai-transparency-the-essential-guide-to-model-auditing-for-ethical-ai-systems/)
+[4](https://seraphicsecurity.com/learn/zero-trust/zero-trust-architecture-in-2025-7-key-components/)
+[5](https://blog.devgenius.io/how-to-create-a-validate-script-for-formatting-linting-and-type-checking-in-a-monorepo-fb21172618d9)
+[6](https://www.strata.io/blog/identity-access-management/achieving-zero-trust-with-multi-cloud-identity/)
+[7](https://docs.aws.amazon.com/prescriptive-guidance/latest/strategy-zero-trust-architecture/best-practices.html)
 [8](https://www.cerbos.dev/blog/20-open-source-tools-for-zero-trust-architecture)
 [9](https://www.skyradar.com/blog/a-radar-reference-architecture)
 [10](https://www.spotterglobal.com/blog/spotter-blog-3/the-future-of-security-leveraging-radar-technology-for-continuous-monitoring-18)
-[11](https://www.linkedin.com/pulse/ai-audit-frameworks-blueprint-trustworthy-transparent-fxflf)
-[12](https://dev.to/ellis22/optimizing-code-quality-a-guide-to-using-husky-and-lint-staged-in-your-development-workflow-4jj9)
-[13](https://blog.nashtechglobal.com/setting-up-husky-and-lint-staged-for-a-clean-codebase/)
-[14](https://dev.to/akramshekh/my-experience-with-nodejs-version-compatibility-leveraging-the-engines-field-in-packagejson-for-4j6a)
-[15](https://docs.npmjs.com/cli/v10/configuring-npm/package-json/)
+[11](https://dev.to/ellis22/optimizing-code-quality-a-guide-to-using-husky-and-lint-staged-in-your-development-workflow-4jj9)
+[12](https://blog.nashtechglobal.com/setting-up-husky-and-lint-staged-for-a-clean-codebase/)
