@@ -1,96 +1,84 @@
-# TAMV — Toward a More Human Internet
-[![version](https://img.shields.io/badge/version-2.0.0-cyan.svg)]()
-[![status](https://img.shields.io/badge/status-evolving-success.svg)]()
-[![AI](https://img.shields.io/badge/AI-ISABELLA™-purple.svg)]()
+TAMV ONLINE — MSR Civilizational Stack
+[![version](https://img.shields.io/badge/version-MSR_
+[![status](https://img.shields.io/badge/status-prototipo_constitucional-active
+[![AI](https://img.shields.io/badge/AI-ISABELLA%E
+TAMV ONLINE no es una app: es un ecosistema civilizatorio híbrido que combina metaverso, blockchain correctiva, guardianía ética y documentación académica viva para desafiar un modelo digital defectuoso y explotador.
 
-Una versión pública y saneada del proyecto TAMV MD‑X4™ pensada para compartir la visión, invitar a la comunidad y proteger la seguridad operativa del desarrollo.
+Qué es TAMV MSR
+• TAMV: Tecnología Avanzada Mexicana Versátil, creada desde Latinoamérica para demostrar que un solo desarrollador autodidacta puede diseñar una plataforma de clase mundial.
+• MSR Blockchain: Metablockchain pionera de Monitoreo, Seguridad y Respaldo, capaz de rastrear, marcar y revertir operaciones fraudulentas sin borrar la historia.
+• ISABELLA AI: institución cognitiva del ecosistema; orquesta agentes, bibliografía, auditorías PRISMA y decisiones de la Trinidad Federada (técnica, documental, ética).
+El objetivo es claro: un Internet más humano, auditable y justo, donde la tecnología sirva a la dignidad y no al extractivismo.
 
----
+Arquitectura en una mirada
+• Stack principal
+o Frontend: React 18 + TypeScript 5 + Vite 5 + TailwindCSS + shadcn/ui.
+o 3D / XR: Three.js + @react-three/fiber + @react-three/drei para DreamSpaces y campo TAMVTRIX.
+o Datos y auth: Supabase + MSR Blockchain como capa de verdad histórica.
+• Infraestructura híbrida
+o IaC: OpenTofu / Terraform compatibles + Pulumi + Crossplane para operación multicloud declarativa.
+o Observabilidad: OpenTelemetry + backends de métricas/trazas/logs (Mimir/Tempo/Loki) + paneles Grafana/Metabase.isms+1
+• Seguridad y ética
+o Framework Zero Trust multi capa: Anubis Sentinel, ORUS Sentinel, Aztek Gods, Dekateotl 4 capas + 11 niveles de orquestación.oracle+1
+o Radares Ojo de Ra, Ojo de Quetzalcóatl y MOS gemelos para monitoreo continuo de patrones anómalos.skyradar+1
+o EOCT: filtro ético auditable que valida decisiones críticas, reputación, economía y claims públicos.aisigil+1
 
-## Un sueño casi cumplido
+Blockchain MSR: más allá de la inmutabilidad
+La MSR no es una cadena “para especular”; es una blockchain correctiva y responsable:
+• Monitoreo
+o Cada transacción genera telemetría estructurada (OTel), tamvcrums (migajas de auditoría) y un BookPI con hash, contexto y política aplicada.
+o Los radares y KAOS analizan comportamiento para detectar fraude, robo, abuso o colusión en tiempo casi real.isms+1
+• Seguridad
+o Cifrado híbrido (clásico + cuántico) y firmas con ADN TAMV vinculan cada bloque a políticas, versiones y guardianía activa.seraphicsecurity+1
+o Protocolos Fénix, Iniciación y Hoyo Negro definen cómo entra un nodo, cómo se recupera el sistema tras un golpe y cómo se aíslan amenazas sin perder trazabilidad.oracle+1
+• Respaldo y justicia
+o Si se confirma uso ilegal o fraudulento, el sistema puede marcar la operación como ilícita y ejecutar procesos de recuperación de activos, sin borrar la historia ni disfrazar el incidente.aisigil
+o Toda decisión de reversión queda anclada en BookPI con evidencia para auditoría pública o académica.
 
-TAMV nace de la convicción de que la tecnología debe servir a la dignidad humana. Nuestro objetivo es construir un Internet más humano: interoperable, responsable, inclusivo y multisensorial. Hoy compartimos lo esencial de esa visión —lo que ya funciona, lo que viene y cómo puedes ayudarnos a convertir este sueño en una plataforma real y accesible.
+DevHub PRISMA y Muro de Paradigmas Rotos
+El DevHub no es solo panel de dev; es el Museo Vivo del TAMV:
+• PRISMA TAMV
+o Cada idea, módulo o claim de récord pasa por una búsqueda sistemática de literatura, estándares, patentes y productos existentes.
+o Se construyen PrismaRecords con criterios de inclusión/exclusión, flujos de selección y nivel de evidencia.
+• Muro de Reconocimientos
+o Galería tipo exposición donde se muestran “cuadros” enmarcando cada paradigma roto, con: resumen, bibliografía, hashes MSR y firma digital TAMV.
+o Sirve como base para autocertificación académica cuando las instituciones tradicionales no miran hacia acá.
 
-## Dedicación
+Módulos funcionales del ecosistema
+• GlobalWall & Community: feed social multimedia con grupos, canales y entornos colaborativos, todo protegido por MSR y Zero Trust.
+• DreamSpaces XR: espacios 3D/4D inmersivos para conciertos, exposiciones, experiencias educativas y rituales digitales.
+• Wallet & Marketplace: gestión de activos, subastas, economías creativas y modelos de participación justa.
+• KAOS & Observabilidad: módulos de análisis de riesgo, anomalías, latencia, experiencia XR y salud del sistema.seraphicsecurity+1
+• Accesibilidad radical: soporte progresivo a distintas capacidades con ayuda de Isabella, desde UI hasta acompañamiento narrativo.
 
-Este proyecto está dedicado a quienes han sufrido, resistido y aún creen que la tecnología puede elevar la vida humana. A las madres, a las comunidades resilientes y a las personas que trabajan en silencio para transformar el dolor en creación. Gracias por no rendirse.
+Para desarrolladores
+• Stack
+o React + TS + Vite + Tailwind + shadcn/ui.
+o Supabase para prototipado de auth y datos (configs sensibles permanecen privadas).
+o TypeScript estricto en todo el monorepo, con alias para cada capa (core, MSR, seguridad, DevHub, XR, Isabella).
+• Calidad
+o ESLint + TypeScript ESLint + Prettier + Vitest + Husky + lint staged para asegurar que ningún cambio entre sin formato, sin tipos o sin pruebas básicas.devgenius+2
+o CI/CD pensada para validar build, tipos, lint y tests antes de cualquier despliegue.
+• Seguridad de desarrollo
+o Sin secretos en el repo; uso de vaults y vars de entorno cifradas.aws.amazon+1
+o Revisión continua de dependencias (npm audit / pnpm audit) y actualizaciones planificadas.isms+1
 
-## Visión resumida
+Cómo acercarte al proyecto
+• Si quieres estudiarlo: revisa este README y los documentos doctrinales públicos; muchos conceptos están pensados como base para papers, tesis y debates éticos.
+• Si quieres contribuir: abre un issue proponiendo mejoras técnicas, revisiones éticas o colaboraciones educativas; el código que atente contra la dignidad humana o facilite explotación será rechazado.linkedin+1
+• Si representas una institución: el DevHub PRISMA y la Muro de Paradigmas Rotos pueden servir como puerta de entrada para evaluaciones académicas, alianzas o certificaciones.
 
-TAMV pretende ser una plataforma social inmersiva y ética que combina:
-- Experiencias inmersivas 3D/4D y multimedia.
-- Un orquestador de IA empática (ISABELLA) orientado a ayuda, accesibilidad y mediación.
-- Un ecosistema de microservicios especializados (KnowledgeCells) para funciones críticas: renderizado, audio espacial, análisis y más.
-- Un marketplace y sistema de créditos con enfoque justo y transparente.
-- Privacidad y gobernanza centradas en el usuario, no en la explotación.
+TAMV no pide permiso al sistema actual: se construye con rigor técnico, memoria documental y un marco ético que no negocia la dignidad. Cada commit, cada bloque y cada escena 3D debe honrar eso.
+1. https://www.isms.online/zero-trust/best-practices-for-zero-trust-security-implementation/
+2. https://seraphicsecurity.com/learn/zero-trust/zero-trust-architecture-in-2025-7-key-components/
+3. https://www.oracle.com/security/what-is-zero-trust/
+4. https://www.skyradar.com/blog/a-radar-reference-architecture
+5. https://www.spotterglobal.com/blog/spotter-blog-3/the-future-of-security-leveraging-radar-technology-for-continuous-monitoring-18
+6. https://aisigil.com/ensuring-ai-transparency-the-essential-guide-to-model-auditing-for-ethical-ai-systems/
+7. https://www.linkedin.com/pulse/ai-audit-frameworks-blueprint-trustworthy-transparent-fxflf
+8. https://www.strata.io/blog/identity-access-management/achieving-zero-trust-with-multi-cloud-identity/
+9. https://blog.devgenius.io/how-to-create-a-validate-script-for-formatting-linting-and-type-checking-in-a-monorepo-fb21172618d9
+10. https://dev.to/ellis22/optimizing-code-quality-a-guide-to-using-husky-and-lint-staged-in-your-development-workflow-4jj9
+11. https://blog.nashtechglobal.com/setting-up-husky-and-lint-staged-for-a-clean-codebase/
+12. https://docs.aws.amazon.com/prescriptive-guidance/latest/strategy-zero-trust-architecture/best-practices.html
 
-## Qué encontrarás en esta página pública
-
-- Una visión clara del propósito y principios del proyecto.
-- Un resumen de las capacidades y áreas funcionales.
-- Información para desarrolladores y colaboradores interesados en contribuir (alta‑nivel).
-- Enlaces a recursos públicos y contacto.
-
-## Características clave (alto‑nivel)
-
-- **GlobalWall**: feed social con soporte multimedia avanzado (texto, imagen, audio, video y formatos 3D compatibles).
-- **DreamSpaces**: entornos interactivos para experiencias inmersivas y creativas.
-- **ISABELLA AI**: agente institucional con enfoque en asistencia, accesibilidad y personalización ética.
-- **Chats y Video**: soporte para comunicación en tiempo real pensado con privacidad por diseño.
-- **Media ingestion**: flujo controlado para subir y curar activos multimedia.
-- **KnowledgeCells**: arquitectura modular que permite innovar por componentes (cada célula es testeable, desplegable y observable).
-- **Observabilidad y SLOs**: métricas y trazabilidad para mantener calidad y resiliencia.
-
-## Public vs. privado: qué compartimos y qué reservamos
-
-Para proteger usuarios, infraestructura y la seguridad operativa:
-- La documentación pública se centra en la visión, la arquitectura conceptual y guías de contribución de alto nivel.
-- Los detalles sensibles (endpoints internos, claves, scripts de rotación de secretos, CI completas, instrucciones de purga de historial, credenciales) están en documentación interna segura y no deben publicarse.
-- Antes de publicar cualquier demo en vivo o endpoint, revisamos la seguridad y la protección de datos.
-
-## Cómo colaborar (primeros pasos)
-
-1. Lee esta página y los documentos públicos vinculados (PROJECT_DESCRIPTION.md, PROJECT_STATUS.md).  
-2. Si quieres contribuir con código o diseño, abre un issue público describiendo tu propuesta.  
-3. Mantén tus PRs pequeños y bien documentados; explica el propósito, las pruebas y el impacto en privacidad y seguridad.  
-4. Respeta el Código de Conducta: contribuciones que dañen la dignidad humana, faciliten manipulación o usos militares no serán aceptadas.
-
-## Guía rápida para desarrolladores (alto nivel)
-
-- **Stack frontal**: React + TypeScript + Vite + Tailwind.  
-- **Servicios y datos**: Supabase para Auth/DB/Storage (configuración y claves deben permanecer privadas).  
-- **Microservicios**: diseñada para ser contenedorizada y desplegada de forma independiente.  
-- **CI y seguridad**: usamos pipelines automáticos en entornos controlados; los secretos se gestionan mediante gestores seguros (p. ej. GitHub Secrets, vaults).
-
-## Privacidad y ética
-
-Nuestra política: minimizar datos recopilados, aplicar Row‑Level Security (RLS) en las tablas que contienen información sensible, auditar accesos y exigir transparencia algorítmica en las decisiones sensibles. Queremos que el control esté en manos de la persona propietaria de los datos.
-
-## Recursos públicos y contacto
-
-- **Blog y reflexiones**: https://tamvonlinenetwork.blogspot.com/  
-- **Correo para prensa y colaboraciones**: contact@tamv.io (alias público — usar para consultas generales)  
-- Si deseas acceso técnico o quieres colaborar de forma profunda, abre un issue en el repositorio y tu solicitud será evaluada.
-
-## Publicación, demos y privacidad de usuario
-
-Compartiremos demos públicas y material visual que no expondrá datos reales de usuarios. Las pruebas con datos reales se realizarán solo en entornos cerrados y con consentimiento explícito.
-
-## Llamado a la comunidad
-
-Si compartes la visión de un Internet más humano —más justo, más empático, más creativo— te invitamos a:
-- Seguir el proyecto, comentar y difundir esta visión.  
-- Contribuir con código, diseño, documentación o revisiones éticas.  
-- Proponer colaboraciones académicas o comunitarias.
-
-## Cierre inspirador
-
-El camino hacia una Internet que respete la dignidad humana no es breve ni fácil. TAMV es la apuesta por una tecnología que nace del sufrimiento pero que nace para sanar; es un esfuerzo colectivo para llevar la creatividad y la empatía a la infraestructura digital. El sueño está cerca —y juntos podemos terminarlo.
-
----
-
-## Nota técnica final
-
-Si eres desarrollador y necesitas la documentación técnica completa (migraciones, CI, endpoints de desarrollo, instrucciones operativas), solicita acceso privado a la documentación interna abriendo un issue o contactando a contact@tamv.io. Por seguridad, esos recursos no se publican en espacios públicos.
-
-**Gracias por leer y por creer en una Internet con más humanidad.**
