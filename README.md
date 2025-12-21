@@ -1,9 +1,9 @@
 # TAMV ONLINE — MSR Civilizational Stack  
 ### Hacia una infraestructura digital digna, auditable y soberana
 
-[![version](https://img.shields.io/badge/version-MSR_ 
-[![status](https://img.shields.io/badge/status-prototipo_constitucional-active 
-[![AI](https://img.shields.io/badge/AI-ISABELLA%E 
+[![version](https://img.shields.io/badge/version-MSR_1.0.0-cyan.svg)](#)  
+[![status](https://img.shields.io/badge/status-prototipo_constitucional-active.svg)](#)  
+[![AI](https://img.shields.io/badge/AI-ISABELLA%E2%84%A2-purple.svg)](#)
 
 TAMV ONLINE es un ecosistema híbrido —técnico, filosófico y jurídico— diseñado para enfrentar de frente un sistema digital defectuoso, explotador y amnésico. No es solo una app: es un **proyecto constitucional civilizacional**, que combina metaverso, blockchain correctiva, guardianía ética y un archivo documental vivo orientado a la **reclamación histórica de récords y rompimientos de paradigmas tecnológicos**.   
 
