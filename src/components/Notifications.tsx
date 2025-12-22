@@ -1,10 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Bell, X, Heart, MessageCircle, Users, Award, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { supabase } from "@/integrations/supabase/client";
 
 interface Notification {
   id: string;
@@ -13,7 +12,7 @@ interface Notification {
   message: string;
   timestamp: Date;
   read: boolean;
-  icon: any;
+  icon: typeof Heart;
 }
 
 export default function Notifications() {
@@ -164,51 +163,54 @@ export default function Notifications() {
                   </div>
                 ) : (
                   <div className="divide-y divide-primary/10">
-                    {notifications.map((notification) => (
-                      <motion.div
-                        key={notification.id}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: 20 }}
-                        className={`p-4 hover:bg-primary/5 transition-colors cursor-pointer relative ${
-                          !notification.read ? 'bg-accent/5' : ''
-                        }`}
-                        onClick={() => markAsRead(notification.id)}
-                      >
-                        <div className="flex items-start gap-3">
-                          <div className={`${getTypeColor(notification.type)} mt-1`}>
-                            <notification.icon className="w-5 h-5" />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-start justify-between gap-2">
-                              <h4 className="font-semibold text-sm text-foreground">
-                                {notification.title}
-                              </h4>
-                              <Button
-                                variant="ghost"
-                                size="icon"
-                                className="w-6 h-6 hover:bg-destructive/20"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  removeNotification(notification.id);
-                                }}
-                              >
-                                <X className="w-3 h-3" />
-                              </Button>
+                    {notifications.map((notification) => {
+                      const Icon = notification.icon;
+                      return (
+                        <motion.div
+                          key={notification.id}
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={{ opacity: 0, x: 20 }}
+                          className={`p-4 hover:bg-primary/5 transition-colors cursor-pointer relative ${
+                            !notification.read ? 'bg-accent/5' : ''
+                          }`}
+                          onClick={() => markAsRead(notification.id)}
+                        >
+                          <div className="flex items-start gap-3">
+                            <div className={`${getTypeColor(notification.type)} mt-1`}>
+                              <Icon className="w-5 h-5" />
                             </div>
-                            <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
-                              {notification.message}
-                            </p>
-                            <p className="text-xs text-muted-foreground/60 mt-1">
-                              {getTimeAgo(notification.timestamp)}
-                            </p>
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-start justify-between gap-2">
+                                <h4 className="font-semibold text-sm text-foreground">
+                                  {notification.title}
+                                </h4>
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  className="w-6 h-6 hover:bg-destructive/20"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    removeNotification(notification.id);
+                                  }}
+                                >
+                                  <X className="w-3 h-3" />
+                                </Button>
+                              </div>
+                              <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
+                                {notification.message}
+                              </p>
+                              <p className="text-xs text-muted-foreground/60 mt-1">
+                                {getTimeAgo(notification.timestamp)}
+                              </p>
+                            </div>
+                            {!notification.read && (
+                              <div className="absolute left-2 top-1/2 -translate-y-1/2 w-2 h-2 bg-accent-glow rounded-full" />
+                            )}
                           </div>
-                          {!notification.read && (
-                            <div className="absolute left-2 top-1/2 -translate-y-1/2 w-2 h-2 bg-accent-glow rounded-full" />
-                          )}
-                        </div>
-                      </motion.div>
-                    ))}
+                        </motion.div>
+                      );
+                    })}
                   </div>
                 )}
               </ScrollArea>

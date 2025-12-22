@@ -3,8 +3,6 @@
  * Central coordination hub for all platform modules
  */
 
-import { EventEmitter } from 'events';
-
 export type ModuleStatus = 'initializing' | 'active' | 'degraded' | 'offline';
 export type SystemEvent = 'module_ready' | 'module_error' | 'user_interaction' | 'emotion_update' | 'sensor_data' | 'security_alert';
 
@@ -20,38 +18,51 @@ export interface UserInteraction {
   userId?: string;
   sessionId: string;
   action: string;
-  context: Record<string, any>;
+  context: Record<string, unknown>;
   emotionalState?: Record<string, number>;
-  sensorData?: Record<string, any>;
+  sensorData?: Record<string, unknown>;
 }
 
 export interface SystemResponse {
   success: boolean;
-  data?: any;
+  data?: unknown;
   emotionalContext?: string;
   recommendations?: string[];
-  adaptedUI?: Record<string, any>;
+  adaptedUI?: Record<string, unknown>;
 }
 
-class SystemOrchestrator extends EventEmitter {
+type EventCallback = (data: unknown) => void;
+
+class SystemOrchestrator {
   private modules: Map<string, ModuleHealth>;
   private isInitialized: boolean = false;
-  private healthCheckInterval?: NodeJS.Timeout;
+  private healthCheckInterval?: ReturnType<typeof setInterval>;
+  private eventListeners: Map<string, EventCallback[]> = new Map();
 
   constructor() {
-    super();
     this.modules = new Map();
   }
 
-  /**
-   * Initialize all system modules
-   */
+  on(event: string, callback: EventCallback): void {
+    const listeners = this.eventListeners.get(event) || [];
+    listeners.push(callback);
+    this.eventListeners.set(event, listeners);
+  }
+
+  private emit(event: string, data?: unknown): void {
+    const listeners = this.eventListeners.get(event) || [];
+    listeners.forEach(cb => cb(data));
+  }
+
+  removeAllListeners(): void {
+    this.eventListeners.clear();
+  }
+
   async initialize(): Promise<void> {
     if (this.isInitialized) return;
 
     console.log('🚀 TAMV MD-X4™ System Orchestrator initializing...');
 
-    // Register core modules
     this.registerModule('QuantumAPI');
     this.registerModule('EmotionBI');
     this.registerModule('SensorHub');
@@ -59,7 +70,6 @@ class SystemOrchestrator extends EventEmitter {
     this.registerModule('IsabellaAI');
     this.registerModule('AnubisSentinel');
 
-    // Start health monitoring
     this.startHealthMonitoring();
 
     this.isInitialized = true;
@@ -67,9 +77,6 @@ class SystemOrchestrator extends EventEmitter {
     console.log('✅ System Orchestrator ready');
   }
 
-  /**
-   * Register a new module
-   */
   private registerModule(name: string): void {
     this.modules.set(name, {
       name,
@@ -80,9 +87,6 @@ class SystemOrchestrator extends EventEmitter {
     });
   }
 
-  /**
-   * Update module status
-   */
   updateModuleStatus(name: string, status: ModuleStatus, performance?: number): void {
     const module = this.modules.get(name);
     if (module) {
@@ -95,31 +99,24 @@ class SystemOrchestrator extends EventEmitter {
     }
   }
 
-  /**
-   * Process user interaction with AI-driven adaptation
-   */
   async processUserInteraction(interaction: UserInteraction): Promise<SystemResponse> {
     try {
-      const { action, context, emotionalState, sensorData } = interaction;
+      const { emotionalState, sensorData } = interaction;
 
-      // Emit interaction event for all modules
       this.emit('user_interaction', interaction);
 
-      // Build adaptive response
       const response: SystemResponse = {
         success: true,
         data: { processed: true },
         recommendations: []
       };
 
-      // Emotional context adaptation
       if (emotionalState) {
         const dominantEmotion = this.getDominantEmotion(emotionalState);
         response.emotionalContext = dominantEmotion;
         response.adaptedUI = this.adaptUIForEmotion(dominantEmotion);
       }
 
-      // Sensor-based recommendations
       if (sensorData) {
         this.emit('sensor_data', sensorData);
         response.recommendations = this.generateSensorRecommendations(sensorData);
@@ -135,9 +132,6 @@ class SystemOrchestrator extends EventEmitter {
     }
   }
 
-  /**
-   * Get dominant emotion from emotional state
-   */
   private getDominantEmotion(emotionalState: Record<string, number>): string {
     let maxEmotion = 'neutral';
     let maxValue = 0;
@@ -152,11 +146,8 @@ class SystemOrchestrator extends EventEmitter {
     return maxEmotion;
   }
 
-  /**
-   * Adapt UI based on emotional context
-   */
-  private adaptUIForEmotion(emotion: string): Record<string, any> {
-    const adaptations: Record<string, any> = {
+  private adaptUIForEmotion(emotion: string): Record<string, unknown> {
+    const adaptations: Record<string, Record<string, string>> = {
       joy: { theme: 'vibrant', animations: 'enhanced', colors: 'warm' },
       calm: { theme: 'serene', animations: 'gentle', colors: 'cool' },
       excited: { theme: 'energetic', animations: 'dynamic', colors: 'bright' },
@@ -167,42 +158,35 @@ class SystemOrchestrator extends EventEmitter {
     return adaptations[emotion] || adaptations.neutral;
   }
 
-  /**
-   * Generate sensor-based recommendations
-   */
-  private generateSensorRecommendations(sensorData: Record<string, any>): string[] {
+  private generateSensorRecommendations(sensorData: Record<string, unknown>): string[] {
     const recommendations: string[] = [];
+    const heartRate = sensorData.heartRate as number | undefined;
+    const eyeStrain = sensorData.eyeStrain as number | undefined;
+    const posture = sensorData.posture as number | undefined;
 
-    if (sensorData.heartRate > 100) {
+    if (heartRate && heartRate > 100) {
       recommendations.push('Consider taking a break - elevated heart rate detected');
     }
 
-    if (sensorData.eyeStrain > 0.7) {
+    if (eyeStrain && eyeStrain > 0.7) {
       recommendations.push('Reduce screen brightness or take an eye break');
     }
 
-    if (sensorData.posture && sensorData.posture < 0.5) {
+    if (posture !== undefined && posture < 0.5) {
       recommendations.push('Adjust your posture for better comfort');
     }
 
     return recommendations;
   }
 
-  /**
-   * Start health monitoring for all modules
-   */
   private startHealthMonitoring(): void {
     this.healthCheckInterval = setInterval(() => {
       this.performHealthCheck();
-    }, 30000); // Every 30 seconds
+    }, 30000);
   }
 
-  /**
-   * Perform health check on all modules
-   */
   private performHealthCheck(): void {
     for (const [name, module] of this.modules) {
-      // Simulate health check (in production, actual module pings)
       if (module.errors > 5) {
         this.updateModuleStatus(name, 'degraded', module.performance * 0.8);
       } else if (module.status === 'initializing') {
@@ -213,9 +197,6 @@ class SystemOrchestrator extends EventEmitter {
     this.emit('health_check_complete', this.getSystemHealth());
   }
 
-  /**
-   * Get overall system health
-   */
   getSystemHealth(): {
     overall: 'healthy' | 'degraded' | 'critical';
     modules: ModuleHealth[];
@@ -235,13 +216,10 @@ class SystemOrchestrator extends EventEmitter {
     return {
       overall,
       modules,
-      uptime: process.uptime?.() || 0
+      uptime: 0
     };
   }
 
-  /**
-   * Shutdown orchestrator
-   */
   shutdown(): void {
     if (this.healthCheckInterval) {
       clearInterval(this.healthCheckInterval);
@@ -252,10 +230,8 @@ class SystemOrchestrator extends EventEmitter {
   }
 }
 
-// Singleton instance
 export const systemOrchestrator = new SystemOrchestrator();
 
-// Auto-initialize
 if (typeof window !== 'undefined') {
   systemOrchestrator.initialize().catch(console.error);
 }

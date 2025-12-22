@@ -10,7 +10,7 @@ interface MediaFile {
   type: 'image' | 'video' | 'audio' | 'document';
   url: string;
   name: string;
-  preview?: string;
+  preview?: string | undefined;
 }
 
 interface MediaManagerProps {
@@ -40,12 +40,13 @@ export default function MediaManager({
 
     const newFiles: MediaFile[] = selectedFiles.map((file) => {
       const type = getFileType(file);
+      const previewUrl = type === 'image' ? URL.createObjectURL(file) : undefined;
       return {
         id: Math.random().toString(36),
         type,
         url: URL.createObjectURL(file),
         name: file.name,
-        preview: type === 'image' ? URL.createObjectURL(file) : undefined,
+        preview: previewUrl,
       };
     });
 

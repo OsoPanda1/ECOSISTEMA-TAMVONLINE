@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Volume2, VolumeX, Play, Pause } from "lucide-react";
+import { Volume2, VolumeX } from "lucide-react";
 
 interface HeroVideoProps {
   onSkip: () => void;
@@ -9,7 +9,6 @@ interface HeroVideoProps {
 
 export default function HeroVideo({ onSkip }: HeroVideoProps) {
   const [isMuted, setIsMuted] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(true);
 
   return (
     <AnimatePresence>
