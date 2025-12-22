@@ -1,8 +1,5 @@
-import React, { useState, useEffect, useCallback, Suspense } from "react";
-import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Html, useProgress } from "@react-three/drei";
+import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Sparkles, Plus, Eye, Users } from "lucide-react";
 import DreamSpaceViewer from "./DreamSpaceViewer";
@@ -12,11 +9,6 @@ const baseTemplates = [
   { id: "zen_garden", name: "Zen Garden", desc: "Entorno natural y sereno" },
   { id: "space_station", name: "Estación Espacial", desc: "Ambiente futurista" },
 ];
-
-function Loader() {
-  const { progress } = useProgress();
-  return <Html center>{progress.toFixed(0)}% cargando...</Html>;
-}
 
 const dreamSpacesData = [
   {
@@ -38,10 +30,9 @@ const dreamSpacesData = [
 ];
 
 export default function DreamSpacesHybrid() {
-  const [selectedSpace, setSelectedSpace] = useState<number | null>(null);
   const [selectedTemplate, setSelectedTemplate] = useState(baseTemplates[0].id);
   const [showNewModal, setShowNewModal] = useState(false);
-  const [viewingSpace, setViewingSpace] = useState<{ type: string; data: any } | null>(null);
+  const [viewingSpace, setViewingSpace] = useState<{ type: string; data: Record<string, unknown> } | null>(null);
 
   const createNewSpace = useCallback(() => {
     alert(`Creando nuevo DreamSpace con plantilla: ${selectedTemplate}`);

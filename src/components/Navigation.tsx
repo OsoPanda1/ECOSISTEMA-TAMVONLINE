@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
-  Brain, Sparkles, Coins, Shield, LayoutDashboard, Globe,
-  User, MessageSquare, Image, Radio, Orbit, Layers, Network, Cpu, Database
+  Coins, Shield, Globe,
+  User, MessageSquare, Image, Radio, Orbit, Layers
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -14,7 +14,6 @@ export type NavView =
 interface NavigationProps {
   currentView: NavView | "hero";
   onNavigate: (view: NavView) => void;
-  // Puedes añadir prop isMobile, permissions, etc. si lo necesitas
 }
 
 export const Navigation = ({ currentView, onNavigate }: NavigationProps) => {
@@ -27,8 +26,6 @@ export const Navigation = ({ currentView, onNavigate }: NavigationProps) => {
     { id: "lives", icon: Radio, label: "Lives", gradient: "from-destructive to-red-400", isRoute: true, path: "/lives" },
     { id: "marketplace", icon: Coins, label: "Market", gradient: "from-accent to-yellow-400", isRoute: true, path: "/marketplace" },
     { id: "knowledge", icon: Layers, label: "Knowledge", gradient: "from-primary to-purple-400", isRoute: true, path: "/knowledge" },
-    { id: "dashboard", icon: Database, label: "Dashboard", gradient: "from-primary to-purple-400" },
-    { id: "isabella", icon: Cpu, label: "ISABELLA AI™", gradient: "from-primary to-purple-400" },
     { id: "dreamspaces", icon: Orbit, label: "Metaverso", gradient: "from-secondary to-cyan-400" },
     { id: "credits", icon: Coins, label: "Créditos", gradient: "from-accent to-yellow-400" },
     { id: "sentinel", icon: Shield, label: "Anubis™", gradient: "from-resonance to-pink-400" },

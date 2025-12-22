@@ -4,7 +4,7 @@
  */
 
 import { useState } from 'react';
-import { X, Play, Pause, Volume2, VolumeX, Maximize2 } from 'lucide-react';
+import { Play, Volume2, VolumeX, Maximize2 } from 'lucide-react';
 import { Button } from './ui/button';
 import { Dialog, DialogContent } from './ui/dialog';
 
@@ -20,7 +20,6 @@ interface MediaGalleryProps {
 
 export function MediaGallery({ mediaUrls = [], mediaTypes = [] }: MediaGalleryProps) {
   const [selectedMedia, setSelectedMedia] = useState<MediaItem | null>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
 
   if (!mediaUrls || mediaUrls.length === 0) return null;

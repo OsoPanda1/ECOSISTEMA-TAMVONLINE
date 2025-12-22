@@ -1,14 +1,19 @@
-import { useEffect, useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Points, PointMaterial, OrbitControls } from '@react-three/drei';
-import * as THREE from 'three';
-import * as random from 'maath/random/dist/maath-random.esm';
+import type { Points as PointsType, Mesh } from 'three';
 
-function Stars(props: any) {
-  const ref = useRef<any>();
-  const [sphere] = useState(() => random.inSphere(new Float32Array(5000), { radius: 1.5 }));
+function Stars() {
+  const ref = useRef<PointsType>(null);
+  const [sphere] = useState(() => {
+    const positions = new Float32Array(5000 * 3);
+    for (let i = 0; i < 5000 * 3; i++) {
+      positions[i] = (Math.random() - 0.5) * 3;
+    }
+    return positions;
+  });
 
-  useFrame((state, delta) => {
+  useFrame((_, delta) => {
     if (ref.current) {
       ref.current.rotation.x -= delta / 10;
       ref.current.rotation.y -= delta / 15;
@@ -17,7 +22,7 @@ function Stars(props: any) {
 
   return (
     <group rotation={[0, 0, Math.PI / 4]}>
-      <Points ref={ref} positions={sphere} stride={3} frustumCulled={false} {...props}>
+      <Points ref={ref} positions={sphere} stride={3} frustumCulled={false}>
         <PointMaterial
           transparent
           color="#a78bfa"
@@ -31,7 +36,7 @@ function Stars(props: any) {
 }
 
 function QuantumCube() {
-  const meshRef = useRef<any>();
+  const meshRef = useRef<Mesh>(null);
   
   useFrame((state, delta) => {
     if (meshRef.current) {
@@ -55,9 +60,9 @@ function QuantumCube() {
 }
 
 function FloatingRings() {
-  const ring1 = useRef<any>();
-  const ring2 = useRef<any>();
-  const ring3 = useRef<any>();
+  const ring1 = useRef<Mesh>(null);
+  const ring2 = useRef<Mesh>(null);
+  const ring3 = useRef<Mesh>(null);
 
   useFrame((state) => {
     const t = state.clock.elapsedTime;
@@ -103,8 +108,4 @@ export default function ImmersiveBackground() {
       </Canvas>
     </div>
   );
-}
-
-function useState(arg0: () => Float32Array): [any] {
-  throw new Error('Function not implemented.');
 }

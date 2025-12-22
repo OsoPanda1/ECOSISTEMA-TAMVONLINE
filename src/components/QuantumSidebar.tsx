@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   Sidebar,
@@ -15,8 +14,8 @@ import {
 } from "@/components/ui/sidebar";
 import {
   Brain, Globe, User, MessageSquare, Image, Radio, ShoppingCart,
-  Database, Cpu, Orbit, Coins, Shield, GraduationCap, Users,
-  LayoutDashboard, Layers, Sparkles, Network, Activity, Zap
+  Orbit, Shield, GraduationCap, Users,
+  LayoutDashboard, Layers, Sparkles, Activity, Zap
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import Notifications from "./Notifications";
@@ -25,7 +24,22 @@ interface QuantumSidebarProps {
   children: React.ReactNode;
 }
 
-const sidebarSections = [
+interface SidebarItem {
+  id: string;
+  icon: typeof Brain;
+  label: string;
+  path?: string;
+  gradient: string;
+  badge?: number;
+  isNew?: boolean;
+}
+
+interface SidebarSection {
+  label: string;
+  items: SidebarItem[];
+}
+
+const sidebarSections: SidebarSection[] = [
   {
     label: "Principal",
     items: [
