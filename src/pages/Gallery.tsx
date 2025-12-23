@@ -1,29 +1,37 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { motion } from "framer-motion";
 import { Heart, Eye, Coins, Sparkles } from "lucide-react";
-import { toast } from "sonner";
+
+interface Artwork {
+  id: string;
+  title: string;
+  description: string;
+  media_url: string;
+  is_auction: boolean;
+  is_for_sale: boolean;
+  price_credits: number | null;
+  profiles?: {
+    username: string;
+    avatar_url: string;
+    verified: boolean;
+  };
+}
 
 export default function Gallery() {
-  const [artworks, setArtworks] = useState<any[]>([]);
-  const [user, setUser] = useState<any>(null);
+  const [artworks, setArtworks] = useState<Artwork[]>([]);
 
   useEffect(() => {
-    // CRITICAL: Setup auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        setUser(session?.user ?? null);
+      () => {
         fetchArtworks();
       }
     );
 
-    // Check existing session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
+    supabase.auth.getSession().then(() => {
       fetchArtworks();
     });
 
@@ -41,7 +49,7 @@ export default function Gallery() {
       `)
       .order('created_at', { ascending: false });
 
-    if (data) setArtworks(data);
+    if (data) setArtworks(data as unknown as Artwork[]);
   };
 
   return (

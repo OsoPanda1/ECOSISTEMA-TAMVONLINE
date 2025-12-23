@@ -30,8 +30,6 @@ export interface BB84KeyPair {
 }
 
 class QuantumAPI {
-  private taskQueue: QuantumRequest[] = [];
-  private isProcessing: boolean = false;
   private useSimulation: boolean = true; // Toggle for real quantum hardware
 
   /**

@@ -7,7 +7,6 @@ export type EmotionalContext = 'empathy' | 'guidance' | 'celebration' | 'neutral
 export function useIsabellaVoice() {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isListening, setIsListening] = useState(false);
-  const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
 
   const speak = async (text: string, emotion: EmotionalContext = 'neutral') => {
     try {

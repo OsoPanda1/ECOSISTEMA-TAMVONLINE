@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, lazy, Suspense } from "react";
+import { useState, useEffect, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -7,41 +7,54 @@ import { Card } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
-  Heart, MessageCircle, Share2, Sparkles, Image as ImageIcon, Video, Mic, Upload, Globe, Zap, Brain,
-  Shield, Bot, Layers, Cpu, Network, Orbit, ShoppingCart, Music, Users, GraduationCap, Gift,
+  Heart, MessageCircle, Share2, Sparkles, Globe,
+  Bot, Layers, Cpu, Network, ShoppingCart, Music, Users, GraduationCap,
   Store, Radio
 } from "lucide-react";
 import MediaUploader from "@/components/MediaUploader";
 import { MediaGallery } from "@/components/MediaGallery";
 import IsabellaVoice from "@/components/IsabellaVoice";
-const IsabellaAI = lazy(() => import("@/components/IsabellaAI"));
+import type { User } from "@supabase/supabase-js";
+
+interface Post {
+  id: string;
+  content: string;
+  media_urls: string[] | null;
+  media_types: string[] | null;
+  created_at: string;
+  resonance_count: number;
+  comments_count: number;
+  shares_count: number;
+  profiles?: {
+    username: string;
+    avatar_url: string;
+    verified: boolean;
+  };
+}
 
 export default function GlobalWall() {
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [content, setContent] = useState("");
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState<Post[]>([]);
   const [mediaUrls, setMediaUrls] = useState<string[]>([]);
   const [mediaTypes, setMediaTypes] = useState<string[]>([]);
-  const [showHero, setShowHero] = useState(true);
   const [isabellaActive, setIsabellaActive] = useState(true);
-  const canvasRef = useRef(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (_event, session) => {
         setUser(session?.user ?? null);
         setIsAuthenticated(!!session?.user);
-        if (session?.user) setShowHero(false);
       }
     );
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
       setIsAuthenticated(!!session?.user);
-      if (session?.user) setShowHero(false);
     });
     fetchPosts();
     const matrixCleanup = initMatrixEffect();
@@ -70,7 +83,7 @@ export default function GlobalWall() {
     const chars = '01TAMVX4QUANTUM';
     const fontSize = 14;
     const columns = canvas.width / fontSize;
-    const drops = [];
+    const drops: number[] = [];
     for (let i = 0; i < columns; i++) drops[i] = Math.random() * canvas.height;
     const draw = () => {
       ctx.fillStyle = 'rgba(16, 16, 20, 0.045)';
@@ -94,7 +107,7 @@ export default function GlobalWall() {
       .select(`*, profiles:user_id (username, avatar_url, verified)`)
       .order('created_at', { ascending: false })
       .limit(70);
-    if (!error && data) setPosts(data);
+    if (!error && data) setPosts(data as unknown as Post[]);
   };
 
   const createPost = async () => {
@@ -121,7 +134,7 @@ export default function GlobalWall() {
     }
   };
 
-  const handleResonance = async (postId) => {
+  const handleResonance = async (postId: string) => {
     if (!isAuthenticated) { toast.error("Debes iniciar sesión"); navigate("/auth"); return; }
     const { error } = await supabase
       .from('resonances').insert({ user_id: user?.id, post_id: postId, emotion: 'resonance', });
@@ -132,7 +145,6 @@ export default function GlobalWall() {
     }
   };
 
-  // Barra superior
   const TopBar = () => (
     <div className="fixed top-0 left-0 w-full z-40 bg-gradient-to-r from-black/70 via-primary/10 to-black/70 backdrop-blur-xl shadow-2xl border-b border-white/10 flex justify-between items-center px-8 h-20 glassmorph-glow">
       <div className="font-orbitron text-2xl tracking-wider text-resonance-glow drop-shadow font-bold">TAMV MD-X4™</div>
@@ -144,13 +156,12 @@ export default function GlobalWall() {
         <Button variant="ghost" onClick={() => navigate('/store')}><Store className="w-5 h-5" /> Store</Button>
       </div>
       <Avatar className="border-2 border-accent-glow">
-        <AvatarImage src={user?.avatar_url} />
-        <AvatarFallback>{user?.username?.[0]?.toUpperCase() ?? "U"}</AvatarFallback>
+        <AvatarImage src={user?.user_metadata?.avatar_url} />
+        <AvatarFallback>{user?.user_metadata?.username?.[0]?.toUpperCase() ?? "U"}</AvatarFallback>
       </Avatar>
     </div>
   );
 
-  // Barra lateral
   const SideBar = () => {
     const [open, setOpen] = useState(false);
     return (
@@ -176,7 +187,6 @@ export default function GlobalWall() {
     );
   };
 
-  // Barra central de herramientas
   const CentralBar = () => (
     <div className="w-full glassmorph-glow rounded-xl py-3 px-4 mt-4 mx-auto flex flex-wrap gap-3 items-center justify-center border-b border-t border-cyan-900/60">
       <Button variant="ghost" onClick={() => navigate('/groups')}><Users /> Grupos</Button>
@@ -189,7 +199,6 @@ export default function GlobalWall() {
     </div>
   );
 
-  // Videoteca principal (hero y dos filas de videos)
   const VideoGrid = () => (
     <div className="w-full flex flex-col items-center mt-36 gap-10">
       <div className="w-full rounded-3xl overflow-hidden shadow-lg bg-gradient-to-br from-accent-glow/30 to-black/80 border-4 border-primary max-w-5xl mx-auto animate-glow">
@@ -274,7 +283,6 @@ export default function GlobalWall() {
     </div>
   );
 
-  // Feed social TAMV posts
   const FeedSection = () => (
     <div className="max-w-5xl mx-auto mt-8 space-y-8">
       {isAuthenticated && user && (
@@ -323,7 +331,6 @@ export default function GlobalWall() {
                   <p className="text-sm text-muted-foreground mb-4">{new Date(post.created_at).toLocaleDateString()}</p>
                   <p className="text-foreground whitespace-pre-wrap">{post.content}</p>
 
-                  {/* Media Display */}
                   <MediaGallery 
                     mediaUrls={post.media_urls} 
                     mediaTypes={post.media_types}
@@ -356,16 +363,13 @@ export default function GlobalWall() {
       <TopBar />
       <SideBar />
       
-      {/* Isabella Voice Integration */}
-      <Suspense fallback={null}>
-        {isabellaActive && (
-          <IsabellaVoice 
-            isActive={isabellaActive} 
-            onClose={() => setIsabellaActive(false)}
-            userName={user?.user_metadata?.username}
-          />
-        )}
-      </Suspense>
+      {isabellaActive && (
+        <IsabellaVoice 
+          isActive={isabellaActive} 
+          onClose={() => setIsabellaActive(false)}
+          userName={user?.user_metadata?.username}
+        />
+      )}
 
       <div className="pt-28 pb-10 px-2">
         <VideoGrid />

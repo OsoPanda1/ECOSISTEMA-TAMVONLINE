@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 interface Message {
@@ -88,9 +87,10 @@ export function useIsabellaChat() {
       }
 
       setIsLoading(false);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Chat error:', error);
-      toast.error(error.message || 'Error al comunicar con Isabella');
+      const errorMessage = error instanceof Error ? error.message : 'Error al comunicar con Isabella';
+      toast.error(errorMessage);
       setIsLoading(false);
     }
   };
