@@ -23,7 +23,7 @@ export interface BiometricData {
 
 export interface EmotionalAnalysis {
   currentState: EmotionalState;
-  predictedState?: EmotionalState;
+  predictedState?: EmotionalState | undefined;
   confidence: number;
   recommendations: string[];
   insights: string[];
@@ -39,7 +39,6 @@ export interface EmotionHeatmap {
 
 class EmotionBI {
   private emotionHistory: Map<string, EmotionalState[]> = new Map();
-  private quantumClusteringEnabled: boolean = true;
 
   /**
    * Analyze emotional state from biometric data

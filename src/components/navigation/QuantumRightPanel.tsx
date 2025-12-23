@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
-  Sparkles, Activity, Shield, Zap, ChevronRight, ChevronLeft,
-  Heart, Brain, Eye, Headphones, Mic, Video, Radio
+  Sparkles, Activity, Shield, Zap, ChevronRight,
+  Heart, Brain, Eye, Headphones, Mic, Radio
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";

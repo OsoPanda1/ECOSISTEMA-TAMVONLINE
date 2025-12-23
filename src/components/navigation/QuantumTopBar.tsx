@@ -31,7 +31,7 @@ interface KPI {
 
 export default function QuantumTopBar() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [notificationCount, setNotificationCount] = useState(7);
+  const [notificationCount] = useState(7);
   const [user, setUser] = useState<any>(null);
   const { theme, setTheme } = useTheme();
   const navigate = useNavigate();

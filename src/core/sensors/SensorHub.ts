@@ -48,7 +48,7 @@ export interface HapticPattern {
 }
 
 class SensorHub {
-  private xrSession?: XRSession;
+  private xrSession?: XRSession | undefined;
   private audioContext?: AudioContext;
   private spatialPanner?: PannerNode;
   private biometricDevices: Map<string, any> = new Map();
@@ -296,9 +296,9 @@ class SensorHub {
     return {
       xr,
       biometrics: {
-        heartRate: heartRate || undefined,
-        gsr: gsr || undefined,
-        eeg: eeg || undefined
+        ...(heartRate !== null && { heartRate }),
+        ...(gsr !== null && { gsr }),
+        ...(eeg !== null && { eeg })
       },
       timestamp: new Date()
     };
