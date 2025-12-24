@@ -8,20 +8,11 @@ import { Radio, Eye, Users } from "lucide-react";
 
 export default function Lives() {
   const [streams, setStreams] = useState<any[]>([]);
-  const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
-    // CRITICAL: Setup auth state listener
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        setUser(session?.user ?? null);
-      }
-    );
-
-    // Check existing session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-    });
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(() => {});
+    
+    supabase.auth.getSession().then(() => {});
 
     fetchStreams();
     

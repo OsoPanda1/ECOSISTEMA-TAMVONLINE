@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,16 +8,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  MapPin, Edit2, Users, Image as ImageIcon, Video, Radio,
-  Heart, MessageCircle, Share2, Eye, Camera, Settings, Gift,
-  Award, Zap, Music, Layers, Globe2, BookOpen
-} from 'lucide-react';
+import { MapPin, Edit2, Image as ImageIcon, Eye, Camera, Settings, Award, Zap } from 'lucide-react';
+// AnimatePresence used below
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'sonner';
 
 export default function Profile() {
-  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const [editForm, setEditForm] = useState({ username: '', bio: '', location: '' });
@@ -71,14 +66,6 @@ export default function Profile() {
       loadUserData();
     }
   };
-
-  const getMembershipColor = (tier: string) => ({
-    free: 'from-slate-500 to-slate-600',
-    premium: 'from-blue-500 to-cyan-500',
-    vip: 'from-purple-500 to-pink-500',
-    elite: 'from-yellow-500 to-orange-500',
-    celestial: 'from-cyan-400 via-purple-400 to-pink-400',
-  }[tier] || 'from-slate-500 to-slate-600');
 
   if (!loaded) return (
     <div className="min-h-screen flex items-center justify-center bg-background">

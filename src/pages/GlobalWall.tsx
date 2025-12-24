@@ -111,13 +111,13 @@ export default function GlobalWall() {
   };
 
   const createPost = async () => {
-    if (!isAuthenticated) { toast.error("Debes iniciar sesión para publicar"); navigate("/auth"); return; }
+    if (!isAuthenticated || !user) { toast.error("Debes iniciar sesión para publicar"); navigate("/auth"); return; }
     if (!content.trim() && mediaUrls.length === 0) return;
     
     const { error } = await supabase
       .from('posts')
       .insert({ 
-        user_id: user?.id, 
+        user_id: user.id, 
         content, 
         post_type: 'post',
         media_urls: mediaUrls.length > 0 ? mediaUrls : null,
@@ -135,9 +135,10 @@ export default function GlobalWall() {
   };
 
   const handleResonance = async (postId: string) => {
-    if (!isAuthenticated) { toast.error("Debes iniciar sesión"); navigate("/auth"); return; }
+    if (!isAuthenticated || !user) { toast.error("Debes iniciar sesión"); navigate("/auth"); return; }
     const { error } = await supabase
-      .from('resonances').insert({ user_id: user?.id, post_id: postId, emotion: 'resonance', });
+      .from('resonances')
+      .insert({ user_id: user.id, post_id: postId, emotion: 'resonance' });
     if (error && error.code !== '23505') {
       toast.error("Error al resonar");
     } else {
@@ -332,8 +333,8 @@ export default function GlobalWall() {
                   <p className="text-foreground whitespace-pre-wrap">{post.content}</p>
 
                   <MediaGallery 
-                    mediaUrls={post.media_urls} 
-                    mediaTypes={post.media_types}
+                    mediaUrls={post.media_urls || []} 
+                    mediaTypes={post.media_types || []}
                   />
 
                   <div className="flex gap-6 mt-4 pt-4 border-t border-primary/20">

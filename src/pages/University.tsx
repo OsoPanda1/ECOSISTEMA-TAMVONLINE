@@ -1,15 +1,13 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion";
-import { GraduationCap, BookOpen, Video, Award, Users, Star, PlayCircle } from "lucide-react";
+import { GraduationCap, BookOpen, Award, Users, Star, PlayCircle } from "lucide-react";
 
 export default function University() {
-  const navigate = useNavigate();
-  const [user, setUser] = useState<any>(null);
+  const [_user, setUser] = useState<any>(null);
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
