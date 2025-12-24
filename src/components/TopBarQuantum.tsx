@@ -14,7 +14,6 @@ interface Notification {
 }
 
 export default function TopBarQuantum() {
-  const [notifications, setNotifications] = useState<Notification[]>([]);
   const [showNotifications, setShowNotifications] = useState(false);
   const [user, setUser] = useState<any>(null);
   const navigate = useNavigate();

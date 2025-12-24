@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { FolderKanban, Plus, Image, Video, Music, FileText, Sparkles } from "lucide-react";
+import { FolderKanban, Plus, Image, Video, Music, Sparkles } from "lucide-react";
 import ImmersiveBackground from "@/components/ImmersiveBackground";
 import { MediaGallery } from "@/components/MediaGallery";
 import { Card } from "@/components/ui/card";

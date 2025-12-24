@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,8 +6,8 @@ import { Card } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { toast } from "sonner";
-import { motion, AnimatePresence } from "framer-motion";
-import { Send, Video, Phone, MoreVertical, Mic, Slash, EyeOff } from "lucide-react";
+import { motion } from "framer-motion";
+import { Send, Video, Phone, MoreVertical, Slash, EyeOff } from "lucide-react";
 
 export default function Chats() {
   const [chats, setChats] = useState<any[]>([]);
@@ -30,14 +30,11 @@ export default function Chats() {
       setUser(session?.user ?? null);
       if (session?.user) fetchChats();
     });
-    // Fetch hidden and blocked chats from user meta/meta table or local Storage sim
     fetchHiddenBlocked();
     return () => subscription.unsubscribe();
   }, []);
 
   const fetchHiddenBlocked = () => {
-    // Implement fetch of hidden/block status from DB or localStorage here
-    // For demo, reset to empty sets or load
     setHiddenChats(new Set());
     setBlockedChats(new Set());
   };
@@ -88,7 +85,6 @@ export default function Chats() {
       setChats(exampleChats);
       return;
     }
-    // Filter out hidden chats
     const filteredChats = data.map((item) => item.chats).filter(Boolean)
       .filter(chat => !hiddenChats.has(chat.id));
     setChats(filteredChats);
@@ -126,7 +122,6 @@ export default function Chats() {
       const newSet = new Set(prev);
       if (newSet.has(chatId)) newSet.delete(chatId);
       else newSet.add(chatId);
-      // Save changes to db/localstorage here if needed
       return newSet;
     });
   };
@@ -136,10 +131,8 @@ export default function Chats() {
       const newSet = new Set(prev);
       if (newSet.has(chatId)) newSet.delete(chatId);
       else newSet.add(chatId);
-      // Save changes to db/localstorage here if needed
       return newSet;
     });
-    // If blocked currently selected, dismiss
     if (selectedChat?.id === chatId) setSelectedChat(null);
   };
 
@@ -151,14 +144,11 @@ export default function Chats() {
           className="flex flex-col border-r border-primary/20 glass-effect h-full">
           <div className="p-6 border-b border-primary/20 flex items-center justify-between">
             <h2 className="text-2xl font-orbitron text-gradient-quantum">Mensajes</h2>
-            {/* Toggle Hidden Chats View */}
             <Button variant="ghost" size="icon" onClick={() => {
               if (hiddenChats.size === 0) {
                 toast("No hay chats ocultos.");
               } else {
-                // Show hidden chats temporarily
                 setChats(prevChats => {
-                  // This triggers to show hidden chats by adding them back temporarily
                   return [...prevChats, ...[...hiddenChats].map(id => ({ id, name: "Chat oculto", chat_type: "hidden" }))];
                 });
                 toast("Mostrando chats ocultos");

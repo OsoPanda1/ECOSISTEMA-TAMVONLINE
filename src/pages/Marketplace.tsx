@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
+import { motion } from "framer-motion";
 import { 
-  ShoppingCart, Sparkles, Tag, TrendingUp, Star, Filter, 
-  CreditCard, Wallet, Gavel, Crown, Heart, Eye, ChevronRight,
-  Package, Zap, Shield, Gift, X, Plus, Minus, Trash2
+  ShoppingCart, Sparkles, TrendingUp, Star, Filter, 
+  CreditCard, Wallet, Crown, Eye,
+  Package, Zap, Shield, Plus, Minus, Trash2
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -11,7 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { useCart } from "@/hooks/useCart";
@@ -66,6 +66,9 @@ export default function Marketplace() {
     toast.success(`${product.name} añadido al carrito`);
   };
 
+  // Get total as number
+  const cartTotal = total();
+  
   const handleCheckout = () => {
     if (!paymentMethod) {
       toast.error("Selecciona un método de pago");
@@ -73,9 +76,8 @@ export default function Marketplace() {
     }
     
     // Calculate totals with commission
-    const subtotal = total;
-    const commission = subtotal * TAMV_COMMISSION;
-    const finalTotal = subtotal + commission;
+    const commission = cartTotal * TAMV_COMMISSION;
+    const finalTotal = cartTotal + commission;
 
     toast.success(`Procesando pago de ${finalTotal.toLocaleString()} TAMV Credits via ${paymentMethod}`);
     setIsCheckoutOpen(false);
@@ -270,15 +272,15 @@ export default function Marketplace() {
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">Subtotal</span>
-                  <span>{total.toLocaleString()} Credits</span>
+                  <span>{cartTotal.toLocaleString()} Credits</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">Comisión TAMV (8%)</span>
-                  <span>{(total * TAMV_COMMISSION).toLocaleString()} Credits</span>
+                  <span>{(cartTotal * TAMV_COMMISSION).toLocaleString()} Credits</span>
                 </div>
                 <div className="flex justify-between font-bold text-lg">
                   <span>Total</span>
-                  <span className="text-gradient-quantum">{(total * (1 + TAMV_COMMISSION)).toLocaleString()} Credits</span>
+                  <span className="text-gradient-quantum">{(cartTotal * (1 + TAMV_COMMISSION)).toLocaleString()} Credits</span>
                 </div>
               </div>
               
@@ -341,15 +343,15 @@ export default function Marketplace() {
             <div className="space-y-2">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Subtotal</span>
-                <span>{total.toLocaleString()} Credits</span>
+                <span>{cartTotal.toLocaleString()} Credits</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Comisión TAMV (8%)</span>
-                <span>{(total * TAMV_COMMISSION).toLocaleString()} Credits</span>
+                <span>{(cartTotal * TAMV_COMMISSION).toLocaleString()} Credits</span>
               </div>
               <div className="flex justify-between text-xl font-bold pt-2 border-t">
                 <span>Total</span>
-                <span className="text-gradient-quantum">{(total * (1 + TAMV_COMMISSION)).toLocaleString()}</span>
+                <span className="text-gradient-quantum">{(cartTotal * (1 + TAMV_COMMISSION)).toLocaleString()}</span>
               </div>
             </div>
             
@@ -391,68 +393,57 @@ function ProductCard({ product, onAddToCart, index }: { product: any; onAddToCar
           
           {/* Auction timer */}
           {product.isAuction && (
-            <Badge className="absolute top-3 right-3 bg-red-500 text-white animate-pulse">
-              <Gavel className="w-3 h-3 mr-1" /> {product.endsIn}
-            </Badge>
+            <div className="absolute bottom-3 right-3">
+              <Badge className="bg-red-500/90 text-white animate-pulse">
+                ⏱ {product.endsIn}
+              </Badge>
+            </div>
           )}
           
-          {/* Center icon */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <Sparkles className="w-16 h-16 text-white/80 group-hover:scale-110 transition-transform" />
-          </div>
-          
-          {/* Quick view overlay */}
-          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center">
-            <Button 
-              size="sm" 
-              className="opacity-0 group-hover:opacity-100 transition-opacity"
-            >
-              <Eye className="w-4 h-4 mr-2" /> Vista Rápida
+          {/* Quick view on hover */}
+          <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+            <Button variant="secondary" size="sm">
+              <Eye className="w-4 h-4 mr-1" /> Ver
             </Button>
           </div>
         </div>
         
         <div className="p-4 space-y-3">
           <div>
-            <h3 className="font-semibold truncate">{product.name}</h3>
-            <p className="text-sm text-muted-foreground">{product.creator}</p>
-          </div>
-          
-          <div className="flex items-center gap-2">
-            <div className="flex">
-              {[...Array(5)].map((_, i) => (
-                <Star
-                  key={i}
-                  className={`w-3 h-3 ${i < Math.floor(product.rating) ? "text-yellow-500 fill-yellow-500" : "text-muted"}`}
-                />
-              ))}
-            </div>
-            <span className="text-xs text-muted-foreground">({product.sales})</span>
+            <h3 className="font-semibold text-foreground truncate">{product.name}</h3>
+            <p className="text-xs text-muted-foreground">{product.creator}</p>
           </div>
           
           <div className="flex items-center justify-between">
-            <div>
-              {product.isAuction ? (
-                <>
-                  <p className="text-xs text-muted-foreground">Puja actual</p>
-                  <p className="text-xl font-bold text-gradient-quantum">{product.currentBid?.toLocaleString()}</p>
-                </>
-              ) : (
-                <p className="text-xl font-bold text-gradient-quantum">{product.price.toLocaleString()}</p>
-              )}
-              <p className="text-xs text-muted-foreground">TAMV Credits</p>
+            <div className="flex items-center gap-1">
+              <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
+              <span className="text-sm font-medium">{product.rating}</span>
+              <span className="text-xs text-muted-foreground">({product.sales})</span>
             </div>
+          </div>
+          
+          <div className="flex items-center justify-between pt-2 border-t border-border/50">
+            {product.isAuction ? (
+              <div>
+                <p className="text-xs text-muted-foreground">Puja actual</p>
+                <p className="font-bold text-accent">{product.currentBid.toLocaleString()} TAMV</p>
+              </div>
+            ) : (
+              <div>
+                <p className="text-xs text-muted-foreground">Precio</p>
+                <p className="font-bold text-primary">{product.price.toLocaleString()} TAMV</p>
+              </div>
+            )}
             
-            <Button
-              size="sm"
-              className="bg-gradient-quantum"
-              onClick={(e) => { e.stopPropagation(); onAddToCart(product); }}
+            <Button 
+              size="sm" 
+              className="bg-gradient-quantum hover:opacity-90"
+              onClick={(e) => {
+                e.stopPropagation();
+                onAddToCart(product);
+              }}
             >
-              {product.isAuction ? (
-                <><Gavel className="w-4 h-4 mr-1" /> Pujar</>
-              ) : (
-                <><ShoppingCart className="w-4 h-4 mr-1" /> Añadir</>
-              )}
+              {product.isAuction ? "Pujar" : "Añadir"}
             </Button>
           </div>
         </div>

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Wallet as WalletIcon, CreditCard, DollarSign, TrendingUp, Send, Download, Zap, Shield } from "lucide-react";
+import { Wallet as WalletIcon, CreditCard, TrendingUp, Send, Download, Zap, Shield } from "lucide-react";
+// Button used in Card actions
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -82,7 +83,7 @@ export default function Wallet() {
             { icon: Download, label: "Recibir", color: "accent" },
             { icon: TrendingUp, label: "Invertir", color: "energy" },
             { icon: Shield, label: "Seguridad", color: "resonance" },
-          ].map((action, i) => (
+          ].map((action) => (
             <motion.div
               key={action.label}
               whileHover={{ scale: 1.05, y: -5 }}
