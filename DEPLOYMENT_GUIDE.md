@@ -309,7 +309,7 @@ npm run type-check
 - Docs: https://docs.lovable.dev/
 
 **TAMV Support:**
-- Email: contact@tamv.io
+- Email: Ttamvonlinenetwork@outlook.es
 - GitHub Issues: [repo-url]
 
 ---
