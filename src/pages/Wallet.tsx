@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import { Wallet as WalletIcon, CreditCard, TrendingUp, Send, Download, Zap, Shield } from "lucide-react";
 // Button used in Card actions
 import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import ImmersiveBackground from "@/components/ImmersiveBackground";
 import walletHero from "@/assets/wallet-hero.jpg";

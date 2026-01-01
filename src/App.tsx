@@ -23,6 +23,8 @@ import University from "./pages/University";
 import Groups from "./pages/Groups";
 import NotFound from "./pages/NotFound";
 import Home from "./pages/Home";
+import Manifest from "./pages/Manifest";
+import SecurityDashboard from "./pages/SecurityDashboard";
 import { Dashboard } from "@/components/Dashboard";
 
 const queryClient = new QueryClient();
@@ -54,6 +56,8 @@ const App = () => (
               <Route path="/audio-kaos" element={<AudioKaos />} />
               <Route path="/projects" element={<Projects />} />
               <Route path="/wall" element={<GlobalWall />} />
+              <Route path="/manifest" element={<Manifest />} />
+              <Route path="/security" element={<SecurityDashboard />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </QuantumLayout>

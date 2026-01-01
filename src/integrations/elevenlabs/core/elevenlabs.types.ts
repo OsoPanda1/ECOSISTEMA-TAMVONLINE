@@ -6,12 +6,12 @@ export type EmotionalContext = 'empathy' | 'guidance' | 'celebration' | 'calm' |
 
 export interface TextToSpeechRequest {
   text: string;
-  emotionalContext?: EmotionalContext;
+  emotionalContext?: EmotionalContext | undefined;
 }
 
 export interface SpeechStreamRequest {
   text: string;
-  emotionalContext?: EmotionalContext;
+  emotionalContext?: EmotionalContext | undefined;
 }
 
 export interface VoiceSettings {

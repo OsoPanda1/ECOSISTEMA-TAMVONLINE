@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
 import { MapPin, Edit2, Image as ImageIcon, Eye, Camera, Settings, Award, Zap } from 'lucide-react';
 // AnimatePresence used below
 import { motion, AnimatePresence } from 'framer-motion';
