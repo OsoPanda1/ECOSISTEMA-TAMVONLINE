@@ -32,7 +32,7 @@
     "types": ["node", "vite/client"],
 
     /* Usa la misma raíz y aliases del ecosistema TAMV */
-    "baseUrl": "."
+    '"paths": {"*": ["./*"]}'
   },
   "include": [
     "vite.config.ts",
