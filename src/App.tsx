@@ -26,6 +26,12 @@ import Home from "./pages/Home";
 import Manifest from "./pages/Manifest";
 import SecurityDashboard from "./pages/SecurityDashboard";
 import { Dashboard } from "@/components/Dashboard";
+import Lottery from "./pages/Lottery";
+import Referrals from "./pages/Referrals";
+import Games from "./pages/Games";
+import Settings from "./pages/Settings";
+import Help from "./pages/Help";
+import MSRBlockchain from "./pages/MSRBlockchain";
 
 const queryClient = new QueryClient();
 
@@ -55,9 +61,16 @@ const App = () => (
               <Route path="/wallet" element={<Wallet />} />
               <Route path="/audio-kaos" element={<AudioKaos />} />
               <Route path="/projects" element={<Projects />} />
+              <Route path="/global-wall" element={<GlobalWall />} />
               <Route path="/wall" element={<GlobalWall />} />
               <Route path="/manifest" element={<Manifest />} />
               <Route path="/security" element={<SecurityDashboard />} />
+              <Route path="/lottery" element={<Lottery />} />
+              <Route path="/referrals" element={<Referrals />} />
+              <Route path="/games" element={<Games />} />
+              <Route path="/settings" element={<Settings />} />
+              <Route path="/help" element={<Help />} />
+              <Route path="/msr-blockchain" element={<MSRBlockchain />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </QuantumLayout>
