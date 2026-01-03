@@ -62,6 +62,7 @@ const sections: NavSection[] = [
       { id: "university", label: "University", icon: GraduationCap, path: "/university" },
       { id: "kaos", label: "Audio Kaos", icon: Music, path: "/audio-kaos", premium: true },
       { id: "manifest", label: "Manifiesto", icon: FileText, path: "/manifest" },
+      { id: "bookpi", label: "BookPI™", icon: FileText, path: "/bookpi", premium: true },
     ],
   },
   {
@@ -70,7 +71,9 @@ const sections: NavSection[] = [
     icon: Wallet,
     items: [
       { id: "wallet", label: "Wallet", icon: Wallet, path: "/wallet" },
+      { id: "nubiwallet", label: "Nubiwallet", icon: Wallet, path: "/nubiwallet", premium: true },
       { id: "lottery", label: "Lottery", icon: Gift, path: "/lottery", badge: 1 },
+      { id: "lottery-vrf", label: "Lotería VRF", icon: Gift, path: "/lottery-vrf" },
       { id: "referrals", label: "Referrals", icon: TrendingUp, path: "/referrals" },
       { id: "games", label: "Games", icon: Gamepad2, path: "/games" },
     ],
@@ -82,6 +85,8 @@ const sections: NavSection[] = [
     items: [
       { id: "profile", label: "Profile", icon: Users, path: "/profile" },
       { id: "security", label: "Security", icon: Shield, path: "/security" },
+      { id: "msr", label: "MSR Blockchain", icon: Shield, path: "/msr-blockchain" },
+      { id: "truth", label: "Dashboard Verdad", icon: Shield, path: "/truth-dashboard" },
       { id: "settings", label: "Settings", icon: Settings, path: "/settings" },
       { id: "help", label: "Help", icon: HelpCircle, path: "/help" },
     ],
