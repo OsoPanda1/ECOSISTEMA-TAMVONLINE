@@ -32,6 +32,10 @@ import Games from "./pages/Games";
 import Settings from "./pages/Settings";
 import Help from "./pages/Help";
 import MSRBlockchain from "./pages/MSRBlockchain";
+import BookPI from "./pages/BookPI";
+import TruthDashboard from "./pages/TruthDashboard";
+import Nubiwallet from "./pages/Nubiwallet";
+import LotteryVRF from "./pages/LotteryVRF";
 
 const queryClient = new QueryClient();
 
@@ -66,11 +70,15 @@ const App = () => (
               <Route path="/manifest" element={<Manifest />} />
               <Route path="/security" element={<SecurityDashboard />} />
               <Route path="/lottery" element={<Lottery />} />
+              <Route path="/lottery-vrf" element={<LotteryVRF />} />
               <Route path="/referrals" element={<Referrals />} />
               <Route path="/games" element={<Games />} />
               <Route path="/settings" element={<Settings />} />
               <Route path="/help" element={<Help />} />
               <Route path="/msr-blockchain" element={<MSRBlockchain />} />
+              <Route path="/bookpi" element={<BookPI />} />
+              <Route path="/truth-dashboard" element={<TruthDashboard />} />
+              <Route path="/nubiwallet" element={<Nubiwallet />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </QuantumLayout>
