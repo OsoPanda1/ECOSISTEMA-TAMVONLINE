@@ -268,6 +268,54 @@ export type Database = {
         }
         Relationships: []
       }
+      ip_records: {
+        Row: {
+          block_number: number | null
+          content_hash: string
+          content_type: string
+          created_at: string
+          description: string | null
+          file_url: string | null
+          id: string
+          metadata: Json | null
+          msr_transaction_hash: string | null
+          status: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          block_number?: number | null
+          content_hash: string
+          content_type: string
+          created_at?: string
+          description?: string | null
+          file_url?: string | null
+          id?: string
+          metadata?: Json | null
+          msr_transaction_hash?: string | null
+          status?: string
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          block_number?: number | null
+          content_hash?: string
+          content_type?: string
+          created_at?: string
+          description?: string | null
+          file_url?: string | null
+          id?: string
+          metadata?: Json | null
+          msr_transaction_hash?: string | null
+          status?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       live_streams: {
         Row: {
           created_at: string | null
@@ -316,6 +364,117 @@ export type Database = {
         }
         Relationships: []
       }
+      lottery_draws: {
+        Row: {
+          chainlink_subscription_id: string | null
+          completed_at: string | null
+          created_at: string
+          description: string | null
+          draw_date: string
+          id: string
+          max_tickets: number
+          name: string
+          prize_pool: number
+          quantum_split_creator: number | null
+          quantum_split_infra: number | null
+          quantum_split_resilience: number | null
+          status: string
+          ticket_price: number
+          tickets_sold: number
+          vrf_proof: string | null
+          vrf_random_number: string | null
+          vrf_request_id: string | null
+          winner_user_id: string | null
+        }
+        Insert: {
+          chainlink_subscription_id?: string | null
+          completed_at?: string | null
+          created_at?: string
+          description?: string | null
+          draw_date: string
+          id?: string
+          max_tickets: number
+          name: string
+          prize_pool?: number
+          quantum_split_creator?: number | null
+          quantum_split_infra?: number | null
+          quantum_split_resilience?: number | null
+          status?: string
+          ticket_price: number
+          tickets_sold?: number
+          vrf_proof?: string | null
+          vrf_random_number?: string | null
+          vrf_request_id?: string | null
+          winner_user_id?: string | null
+        }
+        Update: {
+          chainlink_subscription_id?: string | null
+          completed_at?: string | null
+          created_at?: string
+          description?: string | null
+          draw_date?: string
+          id?: string
+          max_tickets?: number
+          name?: string
+          prize_pool?: number
+          quantum_split_creator?: number | null
+          quantum_split_infra?: number | null
+          quantum_split_resilience?: number | null
+          status?: string
+          ticket_price?: number
+          tickets_sold?: number
+          vrf_proof?: string | null
+          vrf_random_number?: string | null
+          vrf_request_id?: string | null
+          winner_user_id?: string | null
+        }
+        Relationships: []
+      }
+      lottery_tickets: {
+        Row: {
+          created_at: string
+          draw_id: string
+          id: string
+          is_winner: boolean | null
+          purchase_transaction_id: string | null
+          ticket_number: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          draw_id: string
+          id?: string
+          is_winner?: boolean | null
+          purchase_transaction_id?: string | null
+          ticket_number: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          draw_id?: string
+          id?: string
+          is_winner?: boolean | null
+          purchase_transaction_id?: string | null
+          ticket_number?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lottery_tickets_draw_id_fkey"
+            columns: ["draw_id"]
+            isOneToOne: false
+            referencedRelation: "lottery_draws"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lottery_tickets_purchase_transaction_id_fkey"
+            columns: ["purchase_transaction_id"]
+            isOneToOne: false
+            referencedRelation: "wallet_transactions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       messages: {
         Row: {
           chat_id: string
@@ -353,6 +512,42 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      mfa_challenges: {
+        Row: {
+          challenge: string
+          challenge_type: string
+          created_at: string
+          expires_at: string
+          id: string
+          ip_address: string | null
+          user_agent: string | null
+          user_id: string
+          verified_at: string | null
+        }
+        Insert: {
+          challenge: string
+          challenge_type: string
+          created_at?: string
+          expires_at: string
+          id?: string
+          ip_address?: string | null
+          user_agent?: string | null
+          user_id: string
+          verified_at?: string | null
+        }
+        Update: {
+          challenge?: string
+          challenge_type?: string
+          created_at?: string
+          expires_at?: string
+          id?: string
+          ip_address?: string | null
+          user_agent?: string | null
+          user_id?: string
+          verified_at?: string | null
+        }
+        Relationships: []
       }
       posts: {
         Row: {
@@ -479,6 +674,90 @@ export type Database = {
           },
         ]
       }
+      security_audit_log: {
+        Row: {
+          action: string
+          created_at: string
+          details: Json | null
+          id: string
+          ip_address: string | null
+          msr_hash: string | null
+          resource_id: string | null
+          resource_type: string | null
+          severity: string | null
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          details?: Json | null
+          id?: string
+          ip_address?: string | null
+          msr_hash?: string | null
+          resource_id?: string | null
+          resource_type?: string | null
+          severity?: string | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          details?: Json | null
+          id?: string
+          ip_address?: string | null
+          msr_hash?: string | null
+          resource_id?: string | null
+          resource_type?: string | null
+          severity?: string | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      user_credentials: {
+        Row: {
+          counter: number | null
+          created_at: string
+          credential_id: string
+          credential_type: string
+          device_name: string | null
+          id: string
+          is_primary: boolean | null
+          last_used_at: string | null
+          public_key: string | null
+          transports: string[] | null
+          user_id: string
+        }
+        Insert: {
+          counter?: number | null
+          created_at?: string
+          credential_id: string
+          credential_type: string
+          device_name?: string | null
+          id?: string
+          is_primary?: boolean | null
+          last_used_at?: string | null
+          public_key?: string | null
+          transports?: string[] | null
+          user_id: string
+        }
+        Update: {
+          counter?: number | null
+          created_at?: string
+          credential_id?: string
+          credential_type?: string
+          device_name?: string | null
+          id?: string
+          is_primary?: boolean | null
+          last_used_at?: string | null
+          public_key?: string | null
+          transports?: string[] | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string | null
@@ -500,6 +779,113 @@ export type Database = {
         }
         Relationships: []
       }
+      wallet_accounts: {
+        Row: {
+          balance_mxn: number
+          balance_tamv: number
+          balance_usd: number
+          created_at: string
+          daily_limit: number
+          freeze_reason: string | null
+          frozen_balance: number
+          id: string
+          is_frozen: boolean | null
+          is_verified: boolean | null
+          updated_at: string
+          user_id: string
+          wallet_address: string | null
+        }
+        Insert: {
+          balance_mxn?: number
+          balance_tamv?: number
+          balance_usd?: number
+          created_at?: string
+          daily_limit?: number
+          freeze_reason?: string | null
+          frozen_balance?: number
+          id?: string
+          is_frozen?: boolean | null
+          is_verified?: boolean | null
+          updated_at?: string
+          user_id: string
+          wallet_address?: string | null
+        }
+        Update: {
+          balance_mxn?: number
+          balance_tamv?: number
+          balance_usd?: number
+          created_at?: string
+          daily_limit?: number
+          freeze_reason?: string | null
+          frozen_balance?: number
+          id?: string
+          is_frozen?: boolean | null
+          is_verified?: boolean | null
+          updated_at?: string
+          user_id?: string
+          wallet_address?: string | null
+        }
+        Relationships: []
+      }
+      wallet_transactions: {
+        Row: {
+          amount: number
+          completed_at: string | null
+          counterparty: string | null
+          counterparty_user_id: string | null
+          created_at: string
+          currency: string
+          fee_amount: number | null
+          id: string
+          metadata: Json | null
+          msr_hash: string | null
+          status: string
+          transaction_type: string
+          user_id: string
+          wallet_id: string
+        }
+        Insert: {
+          amount: number
+          completed_at?: string | null
+          counterparty?: string | null
+          counterparty_user_id?: string | null
+          created_at?: string
+          currency: string
+          fee_amount?: number | null
+          id?: string
+          metadata?: Json | null
+          msr_hash?: string | null
+          status?: string
+          transaction_type: string
+          user_id: string
+          wallet_id: string
+        }
+        Update: {
+          amount?: number
+          completed_at?: string | null
+          counterparty?: string | null
+          counterparty_user_id?: string | null
+          created_at?: string
+          currency?: string
+          fee_amount?: number | null
+          id?: string
+          metadata?: Json | null
+          msr_hash?: string | null
+          status?: string
+          transaction_type?: string
+          user_id?: string
+          wallet_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wallet_transactions_wallet_id_fkey"
+            columns: ["wallet_id"]
+            isOneToOne: false
+            referencedRelation: "wallet_accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -511,6 +897,21 @@ export type Database = {
           _user_id: string
         }
         Returns: boolean
+      }
+      log_security_event: {
+        Args: {
+          p_action: string
+          p_details?: Json
+          p_resource_id?: string
+          p_resource_type?: string
+          p_severity?: string
+          p_user_id: string
+        }
+        Returns: string
+      }
+      purchase_lottery_ticket: {
+        Args: { p_draw_id: string; p_user_id: string }
+        Returns: string
       }
     }
     Enums: {
