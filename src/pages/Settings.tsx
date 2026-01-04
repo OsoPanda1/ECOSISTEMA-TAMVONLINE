@@ -10,12 +10,12 @@ import { Slider } from "@/components/ui/slider";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from "@/components/ui/label";
-import { useTheme } from "next-themes";
 import { toast } from "sonner";
 import { useState } from "react";
+import SecuritySettings from "@/components/security/SecuritySettings";
 
 export default function Settings() {
-  const { theme, setTheme } = useTheme();
+  const [theme, setTheme] = useState("dark");
   const [settings, setSettings] = useState({
     notifications: true,
     sounds: true,
@@ -54,9 +54,10 @@ export default function Settings() {
         </motion.div>
 
         <Tabs defaultValue="general" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4 crystal-glass">
+          <TabsList className="grid w-full grid-cols-5 crystal-glass">
             <TabsTrigger value="general">General</TabsTrigger>
             <TabsTrigger value="notifications">Notificaciones</TabsTrigger>
+            <TabsTrigger value="security">Seguridad</TabsTrigger>
             <TabsTrigger value="privacy">Privacidad</TabsTrigger>
             <TabsTrigger value="sensory">Sensorial</TabsTrigger>
           </TabsList>
@@ -199,6 +200,16 @@ export default function Settings() {
                   ))}
                 </CardContent>
               </Card>
+            </motion.div>
+          </TabsContent>
+
+          {/* Security Settings */}
+          <TabsContent value="security">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <SecuritySettings />
             </motion.div>
           </TabsContent>
 
