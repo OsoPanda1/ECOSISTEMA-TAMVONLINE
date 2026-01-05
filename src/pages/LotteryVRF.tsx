@@ -3,67 +3,20 @@ import { motion } from "framer-motion";
 import {
   Ticket, Trophy, Sparkles, Clock, Users,
   Dice1, Dice2, Dice3, Dice4, Dice5, Dice6,
-  CheckCircle2, Star, Shield, Gift
+  CheckCircle2, Star, Shield, Gift, Loader2
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
-
-interface LotteryDraw {
-  id: string;
-  name: string;
-  prize: number;
-  ticketPrice: number;
-  ticketsSold: number;
-  maxTickets: number;
-  drawDate: string;
-  status: "active" | "drawing" | "completed";
-  winner?: string;
-  vrfHash?: string;
-}
+import { useLotteryVRF } from "@/hooks/useLotteryVRF";
 
 export default function LotteryVRF() {
+  const { draws, myTickets, loading, purchasing, purchaseTicket, verifyVRF } = useLotteryVRF();
   const [isRolling, setIsRolling] = useState(false);
   const [diceValue, setDiceValue] = useState(1);
   const [countdown, setCountdown] = useState({ hours: 23, minutes: 45, seconds: 12 });
-  const [myTickets, setMyTickets] = useState(5);
-
-  const [draws] = useState<LotteryDraw[]>([
-    {
-      id: "draw-001",
-      name: "Sorteo Quantum Semanal",
-      prize: 500000,
-      ticketPrice: 50,
-      ticketsSold: 8543,
-      maxTickets: 10000,
-      drawDate: "2025-12-31T20:00:00Z",
-      status: "active"
-    },
-    {
-      id: "draw-002",
-      name: "Mega Jackpot TAMV",
-      prize: 2500000,
-      ticketPrice: 200,
-      ticketsSold: 4521,
-      maxTickets: 5000,
-      drawDate: "2026-01-15T20:00:00Z",
-      status: "active"
-    },
-    {
-      id: "draw-003",
-      name: "Sorteo Navideño 2025",
-      prize: 1000000,
-      ticketPrice: 100,
-      ticketsSold: 10000,
-      maxTickets: 10000,
-      drawDate: "2025-12-25T20:00:00Z",
-      status: "completed",
-      winner: "@usuario_ganador",
-      vrfHash: "0x7f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d9069"
-    }
-  ]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -80,14 +33,13 @@ export default function LotteryVRF() {
   const DiceIcons = [Dice1, Dice2, Dice3, Dice4, Dice5, Dice6];
 
   const rollDice = async () => {
-    if (myTickets <= 0) {
+    if (myTickets.length <= 0) {
       toast.error("No tienes boletos disponibles");
       return;
     }
 
     setIsRolling(true);
     
-    // Animate dice rolling
     for (let i = 0; i < 20; i++) {
       await new Promise(resolve => setTimeout(resolve, 100));
       setDiceValue(Math.floor(Math.random() * 6) + 1);
@@ -104,19 +56,67 @@ export default function LotteryVRF() {
     }
   };
 
-  const buyTicket = (drawId: string) => {
-    setMyTickets(prev => prev + 1);
-    toast.success("Boleto comprado exitosamente");
+  const handleBuyTicket = async (drawId: string) => {
+    await purchaseTicket(drawId);
+  };
+
+  const handleVerifyVRF = async (drawId: string) => {
+    const result = await verifyVRF(drawId);
+    if (result) {
+      toast.success("VRF verificado correctamente");
+    }
   };
 
   const CurrentDice = DiceIcons[diceValue - 1];
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  // Use DB draws if available, otherwise show demo data
+  const displayDraws = draws.length > 0 ? draws.map(d => ({
+    id: d.id,
+    name: d.name,
+    prize: d.prize_pool,
+    ticketPrice: d.ticket_price,
+    ticketsSold: d.tickets_sold,
+    maxTickets: d.max_tickets,
+    drawDate: d.draw_date,
+    status: d.status as "active" | "drawing" | "completed",
+    winner: d.winner_user_id,
+    vrfHash: d.vrf_proof
+  })) : [
+    {
+      id: "demo-001",
+      name: "Sorteo Quantum Semanal",
+      prize: 500000,
+      ticketPrice: 50,
+      ticketsSold: 8543,
+      maxTickets: 10000,
+      drawDate: "2026-01-31T20:00:00Z",
+      status: "active" as const
+    },
+    {
+      id: "demo-002",
+      name: "Mega Jackpot TAMV",
+      prize: 2500000,
+      ticketPrice: 200,
+      ticketsSold: 4521,
+      maxTickets: 5000,
+      drawDate: "2026-02-15T20:00:00Z",
+      status: "active" as const
+    }
+  ];
 
   return (
     <div className="min-h-screen relative overflow-hidden">
       {/* Animated Background */}
       <div className="fixed inset-0 -z-10">
         <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-primary/10" />
-        {/* Floating sparkles */}
         {[...Array(30)].map((_, i) => (
           <motion.div
             key={i}
@@ -141,7 +141,7 @@ export default function LotteryVRF() {
         ))}
       </div>
 
-      {/* Hero Section */}
+      {/* Hero Section with Image */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -174,6 +174,18 @@ export default function LotteryVRF() {
           Sistema de azar verificable con VRF (Verifiable Random Function).
           Transparencia y fairness garantizados en MSR Blockchain.
         </motion.p>
+
+        {/* Your Tickets Count */}
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ delay: 0.45, type: "spring" }}
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/20 border border-primary/30 mb-4"
+        >
+          <Ticket className="w-5 h-5 text-primary" />
+          <span className="font-bold">{myTickets.length}</span>
+          <span className="text-muted-foreground">boletos activos</span>
+        </motion.div>
 
         {/* Countdown */}
         <motion.div
@@ -214,12 +226,12 @@ export default function LotteryVRF() {
             
             <div className="flex items-center justify-center gap-2 mb-4">
               <Ticket className="w-5 h-5 text-primary" />
-              <span>Boletos disponibles: <strong>{myTickets}</strong></span>
+              <span>Boletos disponibles: <strong>{myTickets.length}</strong></span>
             </div>
             
             <Button
               onClick={rollDice}
-              disabled={isRolling || myTickets <= 0}
+              disabled={isRolling || myTickets.length <= 0}
               className="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:opacity-90 h-12"
             >
               {isRolling ? "Rodando..." : "¡Tirar Dado!"}
@@ -238,7 +250,7 @@ export default function LotteryVRF() {
           </h2>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {draws.map((draw, index) => (
+            {displayDraws.map((draw, index) => (
               <motion.div
                 key={draw.id}
                 initial={{ opacity: 0, y: 30 }}
@@ -296,18 +308,36 @@ export default function LotteryVRF() {
                   </div>
                   
                   {draw.status === 'completed' ? (
-                    <div className="p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
-                      <p className="text-sm text-center">
-                        <Star className="w-4 h-4 inline mr-1 text-amber-400" />
-                        Ganador: <strong>{draw.winner}</strong>
-                      </p>
+                    <div className="space-y-2">
+                      <div className="p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
+                        <p className="text-sm text-center">
+                          <Star className="w-4 h-4 inline mr-1 text-amber-400" />
+                          Ganador: <strong>{draw.winner || 'Verificando...'}</strong>
+                        </p>
+                      </div>
+                      {draw.vrfHash && (
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="w-full"
+                          onClick={() => handleVerifyVRF(draw.id)}
+                        >
+                          <Shield className="w-4 h-4 mr-2" />
+                          Verificar VRF
+                        </Button>
+                      )}
                     </div>
                   ) : (
                     <Button
-                      onClick={() => buyTicket(draw.id)}
+                      onClick={() => handleBuyTicket(draw.id)}
+                      disabled={purchasing}
                       className="w-full bg-gradient-quantum hover:opacity-90"
                     >
-                      <Ticket className="w-4 h-4 mr-2" />
+                      {purchasing ? (
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      ) : (
+                        <Ticket className="w-4 h-4 mr-2" />
+                      )}
                       Comprar Boleto
                     </Button>
                   )}

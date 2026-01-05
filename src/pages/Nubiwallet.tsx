@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Wallet, Send, Download, ArrowRightLeft, Shield, Lock,
   History, AlertCircle,
-  CheckCircle2, Clock, Zap, QrCode, Copy, ExternalLink
+  CheckCircle2, Clock, Zap, QrCode, Copy, ExternalLink, Loader2
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -11,70 +11,83 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
-
-interface Transaction {
-  id: string;
-  type: "send" | "receive" | "swap" | "reward";
-  amount: number;
-  currency: string;
-  counterparty: string;
-  timestamp: string;
-  status: "completed" | "pending" | "failed";
-  hash?: string;
-}
+import { useNubiwallet } from "@/hooks/useNubiwallet";
 
 export default function Nubiwallet() {
-  const [balance] = useState({
+  const { wallet, transactions, loading, sending, sendFunds, swapCurrency } = useNubiwallet();
+  const [sendAmount, setSendAmount] = useState("");
+  const [sendAddress, setSendAddress] = useState("");
+  const [swapFromAmount, setSwapFromAmount] = useState("");
+  const [swapFrom, setSwapFrom] = useState<'MXN' | 'TAMV' | 'USD'>('MXN');
+  const [swapTo, setSwapTo] = useState<'MXN' | 'TAMV' | 'USD'>('TAMV');
+
+  // Exchange rates
+  const rates: Record<string, Record<string, number>> = {
+    MXN: { TAMV: 0.5, USD: 0.058 },
+    TAMV: { MXN: 2, USD: 0.116 },
+    USD: { MXN: 17.2, TAMV: 8.6 }
+  };
+
+  const balance = wallet ? {
+    mxn: wallet.balance_mxn,
+    tamv: wallet.balance_tamv,
+    usd: wallet.balance_usd
+  } : {
     mxn: 45678.90,
     tamv: 12500,
     usd: 2345.67
-  });
+  };
 
-  const [sendAmount, setSendAmount] = useState("");
-  const [sendAddress, setSendAddress] = useState("");
-  const [isSending, setIsSending] = useState(false);
-
-  const [transactions] = useState<Transaction[]>([
+  const displayTransactions = transactions.length > 0 ? transactions.map(tx => ({
+    id: tx.id,
+    type: tx.transaction_type as "send" | "receive" | "swap" | "reward",
+    amount: tx.amount,
+    currency: tx.currency,
+    counterparty: tx.counterparty || 'Desconocido',
+    timestamp: tx.created_at,
+    status: tx.status as "completed" | "pending" | "failed",
+    hash: tx.msr_hash
+  })) : [
     {
-      id: "tx-001",
-      type: "receive",
+      id: "demo-001",
+      type: "receive" as const,
       amount: 5000,
       currency: "MXN",
       counterparty: "Lotería TAMV",
       timestamp: "2025-12-28T10:30:00Z",
-      status: "completed",
+      status: "completed" as const,
       hash: "0x7f83b1657ff1fc53b92dc18148a1d65d"
     },
     {
-      id: "tx-002",
-      type: "send",
+      id: "demo-002",
+      type: "send" as const,
       amount: 1500,
       currency: "MXN",
       counterparty: "DreamSpace Premium",
       timestamp: "2025-12-27T14:15:00Z",
-      status: "completed",
+      status: "completed" as const,
       hash: "0x3b8a2c1e9d7f6a5b4c3d2e1f0a9b8c7d"
     },
     {
-      id: "tx-003",
-      type: "swap",
+      id: "demo-003",
+      type: "swap" as const,
       amount: 10000,
       currency: "TAMV",
       counterparty: "Exchange MXN→TAMV",
       timestamp: "2025-12-26T09:45:00Z",
-      status: "completed",
+      status: "completed" as const,
       hash: "0x9c8d7e6f5a4b3c2d1e0f9a8b7c6d5e4f"
     },
     {
-      id: "tx-004",
-      type: "reward",
+      id: "demo-004",
+      type: "reward" as const,
       amount: 500,
       currency: "TAMV",
       counterparty: "Referido: @usuario123",
       timestamp: "2025-12-25T16:20:00Z",
-      status: "completed"
+      status: "completed" as const
     }
-  ]);
+  ];
 
   const handleSend = async () => {
     if (!sendAmount || !sendAddress) {
@@ -82,13 +95,20 @@ export default function Nubiwallet() {
       return;
     }
     
-    setIsSending(true);
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    toast.success("Transacción enviada exitosamente");
-    setSendAmount("");
-    setSendAddress("");
-    setIsSending(false);
+    const success = await sendFunds(Number(sendAmount), 'MXN', sendAddress);
+    if (success) {
+      setSendAmount("");
+      setSendAddress("");
+    }
+  };
+
+  const handleSwap = async () => {
+    if (!swapFromAmount) {
+      toast.error("Ingresa una cantidad");
+      return;
+    }
+    await swapCurrency(swapFrom, swapTo, Number(swapFromAmount));
+    setSwapFromAmount("");
   };
 
   const getTransactionIcon = (type: string) => {
@@ -115,6 +135,14 @@ export default function Nubiwallet() {
     navigator.clipboard.writeText(text);
     toast.success("Copiado al portapapeles");
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen relative">
@@ -144,6 +172,12 @@ export default function Nubiwallet() {
               <h1 className="text-4xl font-orbitron font-bold text-gradient-quantum">Nubiwallet</h1>
               <p className="text-muted-foreground">Ledger de doble entrada • Economía TAMV</p>
             </div>
+            {wallet?.is_verified && (
+              <Badge className="ml-auto bg-emerald-500/20 text-emerald-400">
+                <CheckCircle2 className="w-3 h-3 mr-1" />
+                Verificada
+              </Badge>
+            )}
           </div>
 
           {/* Balance Cards */}
@@ -236,16 +270,11 @@ export default function Nubiwallet() {
                   
                   <Button
                     onClick={handleSend}
-                    disabled={isSending}
+                    disabled={sending}
                     className="w-full bg-gradient-quantum hover:opacity-90 h-12"
                   >
-                    {isSending ? (
-                      <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                      >
-                        <Lock className="w-5 h-5" />
-                      </motion.div>
+                    {sending ? (
+                      <Loader2 className="w-5 h-5 animate-spin" />
                     ) : (
                       <>
                         <Send className="w-5 h-5 mr-2" />
@@ -285,11 +314,13 @@ export default function Nubiwallet() {
               <p className="text-sm text-muted-foreground mb-2">Tu dirección Nubiwallet</p>
               
               <div className="flex items-center gap-2 p-3 rounded-lg bg-background/50 font-mono text-sm">
-                <span className="flex-1 truncate">0x7f83b1657ff1fc53b92dc18148a1d65dfc2d4b1f</span>
+                <span className="flex-1 truncate">
+                  {wallet?.wallet_address || "0x7f83b1657ff1fc53b92dc18148a1d65dfc2d4b1f"}
+                </span>
                 <Button
                   variant="ghost"
                   size="icon"
-                  onClick={() => copyToClipboard("0x7f83b1657ff1fc53b92dc18148a1d65dfc2d4b1f")}
+                  onClick={() => copyToClipboard(wallet?.wallet_address || "0x7f83b1657ff1fc53b92dc18148a1d65dfc2d4b1f")}
                 >
                   <Copy className="w-4 h-4" />
                 </Button>
@@ -309,13 +340,35 @@ export default function Nubiwallet() {
                 <div className="p-4 rounded-lg bg-background/50">
                   <label className="text-sm text-muted-foreground">De</label>
                   <div className="flex items-center gap-2 mt-2">
-                    <Input placeholder="0.00" className="flex-1 text-xl" />
-                    <Badge>MXN</Badge>
+                    <Input 
+                      placeholder="0.00" 
+                      className="flex-1 text-xl" 
+                      value={swapFromAmount}
+                      onChange={(e) => setSwapFromAmount(e.target.value)}
+                      type="number"
+                    />
+                    <select 
+                      value={swapFrom}
+                      onChange={(e) => setSwapFrom(e.target.value as 'MXN' | 'TAMV' | 'USD')}
+                      className="bg-primary/20 rounded px-3 py-2 text-sm"
+                    >
+                      <option value="MXN">MXN</option>
+                      <option value="TAMV">TAMV</option>
+                      <option value="USD">USD</option>
+                    </select>
                   </div>
                 </div>
                 
                 <div className="flex justify-center">
-                  <Button variant="ghost" size="icon" className="rounded-full bg-primary/20">
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    className="rounded-full bg-primary/20"
+                    onClick={() => {
+                      setSwapFrom(swapTo);
+                      setSwapTo(swapFrom);
+                    }}
+                  >
                     <ArrowRightLeft className="w-4 h-4" />
                   </Button>
                 </div>
@@ -323,16 +376,36 @@ export default function Nubiwallet() {
                 <div className="p-4 rounded-lg bg-background/50">
                   <label className="text-sm text-muted-foreground">A</label>
                   <div className="flex items-center gap-2 mt-2">
-                    <Input placeholder="0.00" className="flex-1 text-xl" readOnly />
-                    <Badge>TAMV</Badge>
+                    <Input 
+                      placeholder="0.00" 
+                      className="flex-1 text-xl" 
+                      readOnly 
+                      value={swapFromAmount && swapFrom !== swapTo 
+                        ? (Number(swapFromAmount) * (rates[swapFrom][swapTo] || 1)).toFixed(2)
+                        : ""
+                      }
+                    />
+                    <select 
+                      value={swapTo}
+                      onChange={(e) => setSwapTo(e.target.value as 'MXN' | 'TAMV' | 'USD')}
+                      className="bg-primary/20 rounded px-3 py-2 text-sm"
+                    >
+                      <option value="MXN">MXN</option>
+                      <option value="TAMV">TAMV</option>
+                      <option value="USD">USD</option>
+                    </select>
                   </div>
                 </div>
                 
                 <div className="text-center text-sm text-muted-foreground">
-                  1 MXN = 0.5 TAMV Credits
+                  1 {swapFrom} = {rates[swapFrom][swapTo] || 1} {swapTo}
                 </div>
                 
-                <Button className="w-full bg-gradient-quantum">
+                <Button 
+                  className="w-full bg-gradient-quantum"
+                  onClick={handleSwap}
+                  disabled={!swapFromAmount || swapFrom === swapTo}
+                >
                   Confirmar Intercambio
                 </Button>
               </div>
@@ -343,7 +416,7 @@ export default function Nubiwallet() {
           <TabsContent value="history">
             <div className="space-y-4">
               <AnimatePresence>
-                {transactions.map((tx, index) => {
+                {displayTransactions.map((tx, index) => {
                   const Icon = getTransactionIcon(tx.type);
                   return (
                     <motion.div
