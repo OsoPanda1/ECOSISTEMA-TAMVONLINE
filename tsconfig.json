@@ -1,48 +1,25 @@
 {
   "compilerOptions": {
-    /*  Base constitucional de TypeScript */
-    "target": "ES2022",
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
+    "skipLibCheck": true,
     "moduleResolution": "bundler",
-    "jsx": "react-jsx",
-    "jsxImportSource": "react",
-
-    /*  Estricto */
-    "strict": true,
-    "alwaysStrict": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "noImplicitReturns": true,
-    "noImplicitOverride": true,
-    "exactOptionalPropertyTypes": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedIndexedAccess": true,
-    "useUnknownInCatchVariables": true,
-
-    /* 🚫 Sin atajos */
-    "skipLibCheck": false,
-    "forceConsistentCasingInFileNames": true,
-
-    /*  Compatibilidad */
-    "esModuleInterop": true,
+    "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true,
-    "verbatimModuleSyntax": true, // ✅ reemplazo de importsNotUsedAsValues
-
-    /* ⚡ Rendimiento */
-    "incremental": true,
-    "tsBuildInfoFile": "./.tsbuildinfo",
+    "isolatedModules": true,
     "noEmit": true,
-
-    /*  Paths base */
+    "jsx": "react-jsx",
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
     "paths": {
-      "@tamv/*": ["./src/*"]
-    },
-
-    /*  Tipos explícitos */
-    "types": ["react", "react-dom"]
+      "@/*": ["./src/*"]
+    }
   },
   "include": ["src"],
-  "exclude": ["node_modules", "dist"]
+  "references": [{ "path": "./tsconfig.node.json" }]
 }
