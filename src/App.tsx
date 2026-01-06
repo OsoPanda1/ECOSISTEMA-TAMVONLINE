@@ -21,6 +21,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import KnowledgeSystem from "./pages/KnowledgeSystem";
 import University from "./pages/University";
 import Groups from "./pages/Groups";
+import Community from "./pages/Community";
 import NotFound from "./pages/NotFound";
 import Home from "./pages/Home";
 import Manifest from "./pages/Manifest";
@@ -60,6 +61,7 @@ const App = () => (
               <Route path="/knowledge" element={<KnowledgeSystem />} />
               <Route path="/university" element={<University />} />
               <Route path="/groups" element={<Groups />} />
+              <Route path="/community" element={<Community />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/dreamspaces" element={<DreamSpaces />} />
               <Route path="/wallet" element={<Wallet />} />

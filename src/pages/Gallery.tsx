@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { motion } from "framer-motion";
 import { Heart, Eye, Coins, Sparkles } from "lucide-react";
+import galleryHero from "@/assets/gallery-hero.jpg";
 
 interface Artwork {
   id: string;
@@ -54,17 +55,29 @@ export default function Gallery() {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Hero Section */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="relative h-80 overflow-hidden"
+      >
+        <img
+          src={galleryHero}
+          alt="Gallery Hero"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="text-center">
+            <h1 className="text-6xl font-orbitron text-gradient-dream mb-4 drop-shadow-lg">
+              Galería Quantum
+            </h1>
+            <p className="text-xl text-foreground/80">Explora arte sensorial del metaverso</p>
+          </div>
+        </div>
+      </motion.div>
+
       <div className="max-w-7xl mx-auto px-6 py-8 pb-12">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-12"
-        >
-          <h1 className="text-5xl font-orbitron text-gradient-dream mb-2">
-            Galería Quantum
-          </h1>
-          <p className="text-muted-foreground">Explora arte sensorial del metaverso</p>
-        </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {artworks.map((art, index) => (
