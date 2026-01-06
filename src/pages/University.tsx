@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion";
 import { GraduationCap, BookOpen, Award, Users, Star, PlayCircle } from "lucide-react";
+import universityHero from "@/assets/university-hero.jpg";
 
 export default function University() {
   const [_user, setUser] = useState<any>(null);
@@ -36,25 +37,35 @@ export default function University() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-primary-dark to-background">
-      <div className="max-w-7xl mx-auto px-6 py-8 pb-20">
-        {/* Hero Section */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-16"
-        >
-          <div className="inline-flex items-center gap-2 px-6 py-3 glass-effect rounded-full glow-quantum mb-6">
-            <GraduationCap className="w-5 h-5 text-primary-glow animate-pulse" />
-            <span className="text-sm font-orbitron text-foreground/80">TAMV UNIVERSITY™</span>
+      {/* Hero Section */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="relative h-96 overflow-hidden"
+      >
+        <img
+          src={universityHero}
+          alt="University Hero"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="text-center">
+            <div className="inline-flex items-center gap-2 px-6 py-3 glass-effect rounded-full glow-quantum mb-6">
+              <GraduationCap className="w-5 h-5 text-primary-glow animate-pulse" />
+              <span className="text-sm font-orbitron text-foreground/80">TAMV UNIVERSITY™</span>
+            </div>
+            <h1 className="text-6xl font-orbitron font-black text-transparent bg-clip-text bg-gradient-quantum mb-4 drop-shadow-lg">
+              Academia Multisensorial
+            </h1>
+            <p className="text-xl text-foreground/80 max-w-3xl mx-auto">
+              Aprende a crear experiencias inmersivas, desarrollar IA consciente y diseñar economías cuánticas
+            </p>
           </div>
+        </div>
+      </motion.div>
 
-          <h1 className="text-6xl font-orbitron font-black text-transparent bg-clip-text bg-gradient-quantum mb-4">
-            Academia Multisensorial
-          </h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Aprende a crear experiencias inmersivas, desarrollar IA consciente y diseñar economías cuánticas
-          </p>
-        </motion.div>
+      <div className="max-w-7xl mx-auto px-6 py-8 pb-20">
 
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">

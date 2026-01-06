@@ -4,7 +4,9 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { motion } from "framer-motion";
-import { Radio, Eye, Users } from "lucide-react";
+import { Radio, Eye, Users, Video } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import livesHero from "@/assets/lives-hero.jpg";
 
 export default function Lives() {
   const [streams, setStreams] = useState<any[]>([]);
@@ -44,17 +46,33 @@ export default function Lives() {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Hero Section */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="relative h-80 overflow-hidden"
+      >
+        <img
+          src={livesHero}
+          alt="Lives Hero"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="text-center">
+            <h1 className="text-6xl font-orbitron text-gradient-quantum mb-4 drop-shadow-lg">
+              Live Streams
+            </h1>
+            <p className="text-xl text-foreground/80 mb-6">Experiencias en vivo del quantum</p>
+            <Button className="bg-gradient-quantum font-orbitron">
+              <Video className="w-5 h-5 mr-2" />
+              Iniciar Transmisión
+            </Button>
+          </div>
+        </div>
+      </motion.div>
+
       <div className="max-w-7xl mx-auto px-6 py-8 pb-12">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-12"
-        >
-          <h1 className="text-5xl font-orbitron text-gradient-quantum mb-2">
-            Live Streams
-          </h1>
-          <p className="text-muted-foreground">Experiencias en vivo del quantum</p>
-        </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {streams.map((stream, index) => (
