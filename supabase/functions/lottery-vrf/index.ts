@@ -344,7 +344,7 @@ serve(async (req) => {
     console.error('[VRF] Error:', error);
     return new Response(JSON.stringify({
       success: false,
-      error: error.message
+      error: error instanceof Error ? error.message : 'Error desconocido'
     }), {
       status: 400,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' }
