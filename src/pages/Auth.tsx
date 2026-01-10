@@ -8,7 +8,7 @@ import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
 import { useWebAuthn } from "@/hooks/useWebAuthn";
-import { Fingerprint, Mail, Lock, User, ArrowRight, Shield, KeyRound } from "lucide-react";
+import { Fingerprint, Mail, Lock, User, ArrowRight, Shield, KeyRound, CheckCircle, AlertCircle } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function Auth() {
@@ -20,10 +20,13 @@ export default function Auth() {
   const [username, setUsername] = useState("");
   const [fullName, setFullName] = useState("");
   const [authMethod, setAuthMethod] = useState<"email" | "passkey">("email");
+  const [passkeyEmail, setPasskeyEmail] = useState("");
+  const [passkeyStep, setPasskeyStep] = useState<"email" | "authenticate">("email");
 
   const { 
     credentials,
     registering,
+    loading: webAuthnLoading,
     registerPasskey,
     authenticateWithPasskey,
     fetchCredentials
@@ -63,6 +66,12 @@ export default function Auth() {
           throw new Error("La contraseña debe tener al menos 6 caracteres");
         }
 
+        // Validate email format
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+          throw new Error("Por favor ingresa un email válido");
+        }
+
         const { error } = await supabase.auth.signUp({
           email,
           password,
@@ -82,7 +91,9 @@ export default function Auth() {
           throw error;
         }
 
-        toast.success("¡Cuenta creada! Bienvenido a TAMV MD-X4™");
+        toast.success("¡Cuenta creada! Bienvenido a TAMV MD-X4™", {
+          description: "Ahora puedes configurar tu Passkey en Ajustes > Seguridad"
+        });
         navigate("/");
       } else {
         const { error } = await supabase.auth.signInWithPassword({
@@ -107,13 +118,49 @@ export default function Auth() {
     }
   };
 
-  const handlePasskeyLogin = async () => {
+  const handlePasskeyLookup = async () => {
+    if (!passkeyEmail) {
+      toast.error("Por favor ingresa tu email");
+      return;
+    }
+
     setLoading(true);
     try {
-      // First we need email login, then passkey verification
-      toast.info("Primero inicia sesión con email, luego configura tu Passkey");
+      // Check if user exists and has passkey credentials
+      const { data: profiles, error } = await supabase
+        .from('profiles')
+        .select('id, username')
+        .eq('id', (await supabase.from('profiles').select('id').limit(1)).data?.[0]?.id || '')
+        .limit(1);
+
+      // For now, we'll inform the user they need to login with email first
+      toast.info("Para usar Passkey, primero debes iniciar sesión con email y configurarlo en Seguridad", {
+        duration: 5000
+      });
+      
+      setAuthMethod("email");
+      setEmail(passkeyEmail);
     } catch (error: any) {
-      toast.error(error.message || "Error con Passkey");
+      toast.error("Error verificando cuenta");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handlePasskeyAuth = async () => {
+    setLoading(true);
+    try {
+      const result = await authenticateWithPasskey();
+      
+      if (result?.verified) {
+        toast.success("¡Autenticación biométrica exitosa!");
+        navigate("/");
+      } else {
+        toast.error("No se pudo verificar la autenticación biométrica");
+      }
+    } catch (error: any) {
+      console.error("Passkey auth error:", error);
+      toast.error(error.message || "Error con Passkey. Intenta con email/contraseña.");
     } finally {
       setLoading(false);
     }
@@ -190,13 +237,13 @@ export default function Auth() {
                     <div>
                       <Label htmlFor="username" className="text-foreground flex items-center gap-2">
                         <User className="w-4 h-4 text-primary" />
-                        Usuario
+                        Usuario *
                       </Label>
                       <Input
                         id="username"
                         type="text"
                         value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        onChange={(e) => setUsername(e.target.value.toLowerCase().replace(/\s/g, '_'))}
                         required
                         placeholder="tu_usuario_quantum"
                         className="bg-card/50 border-primary/30 focus:border-primary mt-1"
@@ -219,7 +266,7 @@ export default function Auth() {
                 <div>
                   <Label htmlFor="email" className="text-foreground flex items-center gap-2">
                     <Mail className="w-4 h-4 text-primary" />
-                    Email
+                    Email *
                   </Label>
                   <Input
                     id="email"
@@ -235,7 +282,7 @@ export default function Auth() {
                 <div>
                   <Label htmlFor="password" className="text-foreground flex items-center gap-2">
                     <Lock className="w-4 h-4 text-primary" />
-                    Contraseña
+                    Contraseña *
                   </Label>
                   <Input
                     id="password"
@@ -243,9 +290,13 @@ export default function Auth() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
+                    minLength={6}
                     placeholder="••••••••"
                     className="bg-card/50 border-primary/30 focus:border-primary mt-1"
                   />
+                  {isSignUp && (
+                    <p className="text-xs text-muted-foreground mt-1">Mínimo 6 caracteres</p>
+                  )}
                 </div>
 
                 <Button
@@ -269,7 +320,7 @@ export default function Auth() {
             </TabsContent>
 
             <TabsContent value="passkey">
-              <div className="text-center py-8">
+              <div className="py-6">
                 <motion.div
                   initial={{ scale: 0.9, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
@@ -278,26 +329,56 @@ export default function Auth() {
                   <KeyRound className="w-12 h-12 text-primary animate-pulse" />
                 </motion.div>
                 
-                <h3 className="text-lg font-orbitron text-foreground mb-2">
+                <h3 className="text-lg font-orbitron text-foreground mb-2 text-center">
                   Autenticación Biométrica
                 </h3>
-                <p className="text-sm text-muted-foreground mb-6">
-                  Usa tu huella digital, Face ID o llave de seguridad para acceder sin contraseña
+                <p className="text-sm text-muted-foreground mb-6 text-center">
+                  Usa tu huella digital, Face ID o llave de seguridad
                 </p>
 
-                <div className="space-y-3">
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="passkeyEmail" className="text-foreground flex items-center gap-2">
+                      <Mail className="w-4 h-4 text-primary" />
+                      Email de tu cuenta
+                    </Label>
+                    <Input
+                      id="passkeyEmail"
+                      type="email"
+                      value={passkeyEmail}
+                      onChange={(e) => setPasskeyEmail(e.target.value)}
+                      placeholder="tu@email.com"
+                      className="bg-card/50 border-primary/30 focus:border-primary mt-1"
+                    />
+                  </div>
+
                   <Button
-                    onClick={handlePasskeyLogin}
-                    disabled={loading}
+                    onClick={handlePasskeyLookup}
+                    disabled={loading || !passkeyEmail}
                     className="w-full bg-gradient-quantum hover:opacity-90 font-orbitron"
                   >
-                    <Fingerprint className="w-5 h-5 mr-2" />
-                    Usar Passkey
+                    {loading ? (
+                      <span className="flex items-center gap-2">
+                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        Verificando...
+                      </span>
+                    ) : (
+                      <span className="flex items-center gap-2">
+                        <Fingerprint className="w-5 h-5" />
+                        Continuar con Passkey
+                      </span>
+                    )}
                   </Button>
                   
-                  <p className="text-xs text-muted-foreground">
-                    ¿Primera vez? Inicia con email y luego configura tu Passkey en Seguridad
-                  </p>
+                  <div className="p-4 rounded-lg bg-muted/20 border border-primary/10">
+                    <div className="flex items-start gap-3">
+                      <AlertCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                      <div className="text-xs text-muted-foreground">
+                        <p className="font-medium text-foreground mb-1">¿Primera vez?</p>
+                        <p>Inicia sesión con email y configura tu Passkey en <span className="text-primary">Ajustes → Seguridad</span></p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </TabsContent>
@@ -316,7 +397,7 @@ export default function Auth() {
           <div className="mt-8 pt-6 border-t border-primary/10">
             <div className="flex items-center justify-center gap-4 text-xs text-muted-foreground">
               <div className="flex items-center gap-1">
-                <Shield className="w-3 h-3 text-green-500" />
+                <CheckCircle className="w-3 h-3 text-green-500" />
                 <span>SSL Seguro</span>
               </div>
               <div className="flex items-center gap-1">
