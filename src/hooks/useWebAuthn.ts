@@ -16,6 +16,7 @@ export function useWebAuthn() {
   const [credentials, setCredentials] = useState<WebAuthnCredential[]>([]);
   const [loading, setLoading] = useState(false);
   const [registering, setRegistering] = useState(false);
+  const [deleting, setDeleting] = useState<string | null>(null);
 
   const fetchCredentials = useCallback(async () => {
     try {
@@ -124,6 +125,35 @@ export function useWebAuthn() {
       return false;
     } finally {
       setRegistering(false);
+    }
+  };
+
+  const deleteCredential = async (credentialId: string) => {
+    setDeleting(credentialId);
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        toast.error('Debes iniciar sesión');
+        return false;
+      }
+
+      const { error } = await supabase
+        .from('user_credentials')
+        .delete()
+        .eq('id', credentialId)
+        .eq('user_id', user.id);
+
+      if (error) throw error;
+
+      toast.success('Dispositivo eliminado');
+      await fetchCredentials();
+      return true;
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Error al eliminar';
+      toast.error(errorMessage);
+      return false;
+    } finally {
+      setDeleting(null);
     }
   };
 
@@ -267,8 +297,10 @@ export function useWebAuthn() {
     credentials,
     loading,
     registering,
+    deleting,
     fetchCredentials,
     registerPasskey,
+    deleteCredential,
     authenticateWithPasskey,
     setupTOTP,
     verifyTOTP

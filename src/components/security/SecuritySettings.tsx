@@ -21,6 +21,17 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
@@ -32,8 +43,10 @@ export default function SecuritySettings() {
     credentials,
     loading,
     registering,
+    deleting,
     fetchCredentials,
     registerPasskey,
+    deleteCredential,
     authenticateWithPasskey,
     setupTOTP,
     verifyTOTP
@@ -63,6 +76,10 @@ export default function SecuritySettings() {
         description: "Ahora puedes usar autenticación biométrica para iniciar sesión"
       });
     }
+  };
+
+  const handleDeleteCredential = async (credentialId: string) => {
+    await deleteCredential(credentialId);
   };
 
   const handleTestPasskey = async () => {
@@ -270,7 +287,43 @@ export default function SecuritySettings() {
                     {cred.is_primary && (
                       <Badge className="bg-primary/20 text-primary">Principal</Badge>
                     )}
-                    <CheckCircle2 className="w-5 h-5 text-emerald-500" />
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="text-destructive hover:bg-destructive/20"
+                          disabled={deleting === cred.id}
+                        >
+                          {deleting === cred.id ? (
+                            <RefreshCw className="w-4 h-4 animate-spin" />
+                          ) : (
+                            <Trash2 className="w-4 h-4" />
+                          )}
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent className="glass-effect border-destructive/30">
+                        <AlertDialogHeader>
+                          <AlertDialogTitle className="flex items-center gap-2">
+                            <Trash2 className="w-5 h-5 text-destructive" />
+                            Eliminar Passkey
+                          </AlertDialogTitle>
+                          <AlertDialogDescription>
+                            ¿Estás seguro de eliminar "{cred.device_name || 'Passkey'}"? 
+                            No podrás usar este dispositivo para iniciar sesión.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                          <AlertDialogAction
+                            onClick={() => handleDeleteCredential(cred.id)}
+                            className="bg-destructive hover:bg-destructive/90"
+                          >
+                            Eliminar
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
                   </div>
                 </motion.div>
               );
