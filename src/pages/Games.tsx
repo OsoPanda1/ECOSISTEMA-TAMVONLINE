@@ -3,6 +3,8 @@ import { Gamepad2, Trophy, Zap, Star, Users, Play, Lock, Crown, Sparkles } from 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import ImmersiveBackground from "@/components/ImmersiveBackground";
+import gamesHero from "@/assets/games-hero.jpg";
 
 const games = [
   {
@@ -12,7 +14,6 @@ const games = [
     category: "Arcade",
     players: "1,234",
     rating: 4.8,
-    image: "/placeholder.svg",
     premium: false,
     rewards: "100-500 credits"
   },
@@ -23,7 +24,6 @@ const games = [
     category: "PvP",
     players: "2,567",
     rating: 4.9,
-    image: "/placeholder.svg",
     premium: false,
     rewards: "200-1000 credits"
   },
@@ -34,7 +34,6 @@ const games = [
     category: "Casino",
     players: "892",
     rating: 4.7,
-    image: "/placeholder.svg",
     premium: true,
     rewards: "Variable"
   },
@@ -45,7 +44,6 @@ const games = [
     category: "Puzzle",
     players: "3,421",
     rating: 4.6,
-    image: "/placeholder.svg",
     premium: false,
     rewards: "50-200 credits"
   },
@@ -56,7 +54,6 @@ const games = [
     category: "Racing",
     players: "1,876",
     rating: 4.8,
-    image: "/placeholder.svg",
     premium: false,
     rewards: "150-750 credits"
   },
@@ -67,7 +64,6 @@ const games = [
     category: "Trivia",
     players: "4,532",
     rating: 4.5,
-    image: "/placeholder.svg",
     premium: false,
     rewards: "25-100 credits"
   },
@@ -81,16 +77,23 @@ const leaderboard = [
 
 export default function Games() {
   return (
-    <div className="min-h-screen pt-20 pb-8 px-4">
-      <div className="max-w-7xl mx-auto space-y-8">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center space-y-4"
-        >
+    <div className="min-h-screen relative overflow-hidden">
+      <ImmersiveBackground />
+      
+      {/* Epic Hero Section */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="relative h-[60vh] overflow-hidden"
+      >
+        <div className="absolute inset-0">
+          <img src={gamesHero} alt="TAMV Gaming Hub" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-b from-background/10 via-background/50 to-background" />
+        </div>
+        
+        <div className="relative h-full flex flex-col items-center justify-center text-center px-4">
           <motion.div
-            className="mx-auto w-24 h-24 rounded-full bg-gradient-to-br from-purple-500 via-pink-500 to-red-500 flex items-center justify-center"
+            className="w-24 h-24 rounded-full bg-gradient-to-br from-purple-500 via-pink-500 to-red-500 flex items-center justify-center mb-6"
             animate={{ 
               boxShadow: [
                 "0 0 30px rgba(168,85,247,0.5)",
@@ -102,14 +105,28 @@ export default function Games() {
           >
             <Gamepad2 className="w-12 h-12 text-white" />
           </motion.div>
-          <h1 className="font-orbitron text-4xl font-bold text-gradient-quantum">
+          
+          <motion.h1
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="font-orbitron text-6xl md:text-8xl font-bold text-gradient-quantum mb-4"
+          >
             TAMV Gaming Hub
-          </h1>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
+          </motion.h1>
+          
+          <motion.p
+            initial={{ y: 30, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="text-xl md:text-2xl text-muted-foreground max-w-2xl mb-8"
+          >
             Juega, compite y gana credits en el arcade más avanzado del metaverso
-          </p>
-        </motion.div>
+          </motion.p>
+        </div>
+      </motion.div>
 
+      <div className="relative max-w-7xl mx-auto px-4 py-8 space-y-8">
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
@@ -122,9 +139,9 @@ export default function Games() {
               key={stat.label}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 * index }}
+              transition={{ delay: 0.4 + 0.1 * index }}
             >
-              <Card className="crystal-glass">
+              <Card className="glass-effect border-primary/20">
                 <CardContent className="p-4 text-center">
                   <stat.icon className={`w-6 h-6 mx-auto mb-2 ${stat.color}`} />
                   <div className="text-2xl font-orbitron font-bold">{stat.value}</div>
@@ -147,10 +164,10 @@ export default function Games() {
                 key={game.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 * index }}
+                transition={{ delay: 0.5 + 0.1 * index }}
                 whileHover={{ y: -5 }}
               >
-                <Card className="crystal-glass overflow-hidden h-full group">
+                <Card className="glass-effect border-primary/20 overflow-hidden h-full group">
                   <div className="relative h-40 bg-gradient-to-br from-accent/20 via-primary/20 to-secondary/20">
                     <div className="absolute inset-0 flex items-center justify-center">
                       <Gamepad2 className="w-16 h-16 text-accent/50" />
@@ -205,7 +222,7 @@ export default function Games() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8 }}
         >
-          <Card className="crystal-glass">
+          <Card className="glass-effect border-primary/20">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Trophy className="w-6 h-6 text-yellow-500" />
