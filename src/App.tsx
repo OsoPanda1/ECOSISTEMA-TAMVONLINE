@@ -37,6 +37,9 @@ import BookPI from "./pages/BookPI";
 import TruthDashboard from "./pages/TruthDashboard";
 import Nubiwallet from "./pages/Nubiwallet";
 import LotteryVRF from "./pages/LotteryVRF";
+import FederatedDashboard from "./pages/FederatedDashboard";
+import QuantumDemo from "./pages/QuantumDemo";
+import Render4D from "./pages/Render4D";
 
 const queryClient = new QueryClient();
 
@@ -81,6 +84,9 @@ const App = () => (
               <Route path="/bookpi" element={<BookPI />} />
               <Route path="/truth-dashboard" element={<TruthDashboard />} />
               <Route path="/nubiwallet" element={<Nubiwallet />} />
+              <Route path="/federation" element={<FederatedDashboard />} />
+              <Route path="/quantum-demo" element={<QuantumDemo />} />
+              <Route path="/render-4d" element={<Render4D />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </QuantumLayout>
