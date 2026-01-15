@@ -1,6 +1,7 @@
 /**
  * 🎯 TAMV MD-X4™ Core Modules
  * Unified export point for all core systems
+ * 7-Layer Federated Architecture with Quantum & 4D Rendering
  */
 
 // Orchestration
@@ -10,6 +11,16 @@ export { systemOrchestrator } from './orchestrator/SystemOrchestrator';
 // Quantum Computing
 export * from './quantum/QuantumAPI';
 export { quantumAPI } from './quantum/QuantumAPI';
+export * from './quantum/QuantumCircuit';
+export { QuantumCircuit, QuantumCircuits } from './quantum/QuantumCircuit';
+
+// 4D Rendering
+export * from './render4d/HyperRender4D';
+export { hyperRender4D } from './render4d/HyperRender4D';
+
+// Federation Architecture
+export * from './federation/FederatedArchitecture';
+export { federatedArchitecture, LAYER_CAPABILITIES } from './federation/FederatedArchitecture';
 
 // Emotional Intelligence
 export * from './emotion/EmotionBI';
