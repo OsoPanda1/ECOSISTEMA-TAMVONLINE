@@ -202,6 +202,45 @@ export type Database = {
         }
         Relationships: []
       }
+      digital_pets: {
+        Row: {
+          appearance: Json | null
+          attributes: Json | null
+          created_at: string | null
+          experience: number | null
+          id: string
+          level: number | null
+          name: string
+          owner_id: string
+          species: string
+          updated_at: string | null
+        }
+        Insert: {
+          appearance?: Json | null
+          attributes?: Json | null
+          created_at?: string | null
+          experience?: number | null
+          id?: string
+          level?: number | null
+          name: string
+          owner_id: string
+          species?: string
+          updated_at?: string | null
+        }
+        Update: {
+          appearance?: Json | null
+          attributes?: Json | null
+          created_at?: string | null
+          experience?: number | null
+          id?: string
+          level?: number | null
+          name?: string
+          owner_id?: string
+          species?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       dreamspaces: {
         Row: {
           created_at: string | null
@@ -265,6 +304,42 @@ export type Database = {
           follower_id?: string
           following_id?: string
           id?: string
+        }
+        Relationships: []
+      }
+      guardian_events: {
+        Row: {
+          created_at: string | null
+          details: Json | null
+          event_type: string
+          guardian_name: string
+          id: string
+          resolved: boolean | null
+          resolved_at: string | null
+          severity: string | null
+          source: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          details?: Json | null
+          event_type: string
+          guardian_name?: string
+          id?: string
+          resolved?: boolean | null
+          resolved_at?: string | null
+          severity?: string | null
+          source?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          details?: Json | null
+          event_type?: string
+          guardian_name?: string
+          id?: string
+          resolved?: boolean | null
+          resolved_at?: string | null
+          severity?: string | null
+          source?: string | null
         }
         Relationships: []
       }
@@ -475,6 +550,93 @@ export type Database = {
           },
         ]
       }
+      marketplace_items: {
+        Row: {
+          category: string | null
+          created_at: string | null
+          currency: string | null
+          description: string | null
+          id: string
+          media_type: string | null
+          media_url: string | null
+          metadata: Json | null
+          price: number
+          seller_id: string
+          status: string | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string | null
+          currency?: string | null
+          description?: string | null
+          id?: string
+          media_type?: string | null
+          media_url?: string | null
+          metadata?: Json | null
+          price: number
+          seller_id: string
+          status?: string | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          category?: string | null
+          created_at?: string | null
+          currency?: string | null
+          description?: string | null
+          id?: string
+          media_type?: string | null
+          media_url?: string | null
+          metadata?: Json | null
+          price?: number
+          seller_id?: string
+          status?: string | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      memberships: {
+        Row: {
+          created_at: string | null
+          expires_at: string | null
+          features: Json | null
+          id: string
+          price_paid: number | null
+          started_at: string | null
+          stripe_subscription_id: string | null
+          tier: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          expires_at?: string | null
+          features?: Json | null
+          id?: string
+          price_paid?: number | null
+          started_at?: string | null
+          stripe_subscription_id?: string | null
+          tier?: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          expires_at?: string | null
+          features?: Json | null
+          id?: string
+          price_paid?: number | null
+          started_at?: string | null
+          stripe_subscription_id?: string | null
+          tier?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       messages: {
         Row: {
           chat_id: string
@@ -546,6 +708,42 @@ export type Database = {
           user_agent?: string | null
           user_id?: string
           verified_at?: string | null
+        }
+        Relationships: []
+      }
+      notifications: {
+        Row: {
+          action_url: string | null
+          created_at: string | null
+          id: string
+          is_read: boolean | null
+          message: string | null
+          metadata: Json | null
+          title: string
+          type: string
+          user_id: string
+        }
+        Insert: {
+          action_url?: string | null
+          created_at?: string | null
+          id?: string
+          is_read?: boolean | null
+          message?: string | null
+          metadata?: Json | null
+          title: string
+          type?: string
+          user_id: string
+        }
+        Update: {
+          action_url?: string | null
+          created_at?: string | null
+          id?: string
+          is_read?: boolean | null
+          message?: string | null
+          metadata?: Json | null
+          title?: string
+          type?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -639,6 +837,36 @@ export type Database = {
           username?: string
           verified?: boolean | null
           website?: string | null
+        }
+        Relationships: []
+      }
+      referrals: {
+        Row: {
+          completed_at: string | null
+          created_at: string | null
+          id: string
+          referred_id: string
+          referrer_id: string
+          reward_amount: number | null
+          status: string | null
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string | null
+          id?: string
+          referred_id: string
+          referrer_id: string
+          reward_amount?: number | null
+          status?: string | null
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string | null
+          id?: string
+          referred_id?: string
+          referrer_id?: string
+          reward_amount?: number | null
+          status?: string | null
         }
         Relationships: []
       }

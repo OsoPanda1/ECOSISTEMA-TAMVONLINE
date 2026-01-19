@@ -40,6 +40,7 @@ import LotteryVRF from "./pages/LotteryVRF";
 import FederatedDashboard from "./pages/FederatedDashboard";
 import QuantumDemo from "./pages/QuantumDemo";
 import Render4D from "./pages/Render4D";
+import GuardiansCenter from "./pages/GuardiansCenter";
 
 const queryClient = new QueryClient();
 
@@ -87,6 +88,7 @@ const App = () => (
               <Route path="/federation" element={<FederatedDashboard />} />
               <Route path="/quantum-demo" element={<QuantumDemo />} />
               <Route path="/render-4d" element={<Render4D />} />
+              <Route path="/guardians" element={<GuardiansCenter />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </QuantumLayout>
