@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import ImmersiveBackground from "@/components/ImmersiveBackground";
-import gamesHero from "@/assets/games-hero.jpg";
+const gamesHero = "/placeholder.svg";
 
 const games = [
   {

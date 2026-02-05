@@ -6,7 +6,7 @@ import { MediaGallery } from "@/components/MediaGallery";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import projectsHero from "@/assets/projects-hero.jpg";
+const projectsHero = "/placeholder.svg";
 
 export default function Projects() {
   const [projects] = useState([

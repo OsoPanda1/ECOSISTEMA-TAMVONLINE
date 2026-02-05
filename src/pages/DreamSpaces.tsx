@@ -12,7 +12,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useDreamSpaces, CreateDreamSpaceData } from "@/hooks/useDreamSpaces";
-import dreamspaceHero from "@/assets/dreamspace-hero.webp";
+const dreamspaceHero = "/placeholder.svg";
 
 const spaceTypes = [
   { value: "social", label: "Social", color: "from-primary to-accent" },

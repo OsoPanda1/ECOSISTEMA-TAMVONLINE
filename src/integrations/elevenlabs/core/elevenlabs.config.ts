@@ -10,7 +10,7 @@
 
 export const ElevenLabsConfig = {
   // API Configuration
-  apiKey: import.meta.env.VITE_ELEVENLABS_API_KEY || '',
+  apiKey: process.env.NEXT_PUBLIC_ELEVENLABS_API_KEY || '',
   baseUrl: 'https://api.elevenlabs.io/v1',
   
   // Isabella's Universal Voice - IMMUTABLE

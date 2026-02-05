@@ -17,12 +17,12 @@ export function useIsabellaChat() {
 
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/isabella-chat`,
+        `${process.env.NEXT_PUBLIC_SUPABASE_URL || ""}/functions/v1/isabella-chat`,
         {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+            'Authorization': `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ""}`,
           },
           body: JSON.stringify({
             messages: [...messages, newUserMessage],

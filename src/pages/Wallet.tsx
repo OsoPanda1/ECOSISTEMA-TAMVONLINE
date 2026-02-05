@@ -5,7 +5,7 @@ import { Wallet as WalletIcon, CreditCard, TrendingUp, Send, Download, Zap, Shie
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import ImmersiveBackground from "@/components/ImmersiveBackground";
-import walletHero from "@/assets/wallet-hero.jpg";
+const walletHero = "/placeholder.svg";
 
 export default function Wallet() {
   const [balance] = useState(2547.89);

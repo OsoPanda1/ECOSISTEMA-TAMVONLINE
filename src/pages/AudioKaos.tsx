@@ -4,7 +4,7 @@ import ImmersiveBackground from "@/components/ImmersiveBackground";
 import KaosAudioFX from "@/components/KaosAudioFX";
 import SensoryFXManager from "@/components/SensoryFXManager";
 import { Card } from "@/components/ui/card";
-import kaosHero from "@/assets/kaos-audio-hero.jpg";
+const kaosHero = "/placeholder.svg";
 
 export default function AudioKaos() {
   return (

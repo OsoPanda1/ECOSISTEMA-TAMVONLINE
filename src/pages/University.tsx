@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion";
 import { GraduationCap, BookOpen, Award, Users, Star, PlayCircle } from "lucide-react";
-import universityHero from "@/assets/university-hero.jpg";
+const universityHero = "/placeholder.svg";
 
 export default function University() {
   const [_user, setUser] = useState<any>(null);

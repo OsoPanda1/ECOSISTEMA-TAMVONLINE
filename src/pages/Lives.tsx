@@ -6,7 +6,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { motion } from "framer-motion";
 import { Radio, Eye, Users, Video } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import livesHero from "@/assets/lives-hero.jpg";
+const livesHero = "/placeholder.svg";
 
 export default function Lives() {
   const [streams, setStreams] = useState<any[]>([]);

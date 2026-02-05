@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { motion } from "framer-motion";
 import { Heart, Eye, Coins, Sparkles } from "lucide-react";
-import galleryHero from "@/assets/gallery-hero.jpg";
+const galleryHero = "/placeholder.svg";
 
 interface Artwork {
   id: string;

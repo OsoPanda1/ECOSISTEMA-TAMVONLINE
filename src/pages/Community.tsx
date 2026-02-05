@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { motion } from "framer-motion";
 import { Users, MessageCircle, Heart, Share2, Star, Trophy, TrendingUp } from "lucide-react";
-import communityHero from "@/assets/community-hero.jpg";
+const communityHero = "/placeholder.svg";
 
 interface Profile {
   id: string;
