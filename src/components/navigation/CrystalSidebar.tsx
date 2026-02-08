@@ -5,7 +5,8 @@ import {
   Wallet, Settings, HelpCircle,
   Sparkles, Gamepad2, Music, Gift, TrendingUp,
   BookOpen, Zap, Heart, Star, Crown, Shield,
-  MessageSquare, Image, FileText, ChevronDown, Menu, X
+  MessageSquare, Image, FileText, ChevronDown, Menu, X,
+  PawPrint, Atom
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -40,6 +41,8 @@ const sections: NavSection[] = [
       { id: "dreamspaces", label: "DreamSpaces", icon: Sparkles, path: "/dreamspaces", badge: 3 },
       { id: "lives", label: "Lives", icon: Radio, path: "/lives" },
       { id: "marketplace", label: "Marketplace", icon: ShoppingBag, path: "/marketplace" },
+      { id: "pets", label: "Mascotas", icon: PawPrint, path: "/pets" },
+      { id: "quantum", label: "Quantum Boost", icon: Atom, path: "/quantum-demo" },
     ],
   },
   {

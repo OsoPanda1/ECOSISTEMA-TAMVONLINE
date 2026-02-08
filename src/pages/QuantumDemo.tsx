@@ -1,331 +1,206 @@
 /**
- * ⚛️ Quantum Demo - TAMV MD-X4™
- * Interactive quantum circuit demonstration
+ * ⚛️ Quantum Boost Hub - TAMV MD-X4™
+ * Superpoderes cuántico-inspirados para todos los usuarios
+ * 3 capas: Mortal → Pro → Simbólica
  */
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { 
-  Zap, Play, RotateCcw, Download, Copy, 
-  Activity, Target, Atom, Waves, Grid3X3
+import {
+  Search, Lightbulb, ArrowDownUp, Shield, Atom, Zap,
+  Cpu, Database, Play, RotateCcw, Clock, CheckCircle,
+  XCircle, Loader2, ChevronRight, ChevronDown, Share2,
+  Sparkles, Eye, BookOpen
 } from "lucide-react";
-import { QuantumCircuit, QuantumCircuits, type CircuitResult, type GateType } from "@/core/quantum/QuantumCircuit";
+import { toast } from "sonner";
+import QuantumBoostCards from "@/components/quantum/QuantumBoostCards";
+import QuantumAdvancedPanel from "@/components/quantum/QuantumAdvancedPanel";
+import QuantumJobHistory from "@/components/quantum/QuantumJobHistory";
 
-interface GateDisplay {
-  type: GateType;
-  qubit: number;
-  step: number;
-  params?: number[];
+export interface QuantumJob {
+  id: string;
+  type: string;
+  boost: "discover" | "create" | "decide" | "trust";
+  status: "pending" | "running" | "completed" | "failed";
+  progress: number;
+  createdAt: Date;
+  evidence_hash?: string;
+  summary?: string;
 }
 
-const GATE_COLORS: Record<string, string> = {
-  H: "bg-purple-500",
-  X: "bg-red-500",
-  Y: "bg-green-500",
-  Z: "bg-blue-500",
-  CNOT: "bg-cyan-500",
-  CZ: "bg-teal-500",
-  Rx: "bg-orange-500",
-  Ry: "bg-yellow-500",
-  Rz: "bg-pink-500",
-  Measure: "bg-gray-500"
-};
+const mockJobs: QuantumJob[] = [
+  {
+    id: "qj-001", type: "grover", boost: "discover", status: "completed", progress: 100,
+    createdAt: new Date(Date.now() - 3600000),
+    evidence_hash: "sha512:a1b2c3d4e5f6",
+    summary: "Exploramos 1,327 opciones y encontramos 5 candidatas perfectas para ti.",
+  },
+  {
+    id: "qj-002", type: "vqe", boost: "decide", status: "running", progress: 67,
+    createdAt: new Date(Date.now() - 1800000),
+    summary: "Optimizando la combinación de parámetros para tu decisión.",
+  },
+  {
+    id: "qj-003", type: "qml", boost: "create", status: "pending", progress: 0,
+    createdAt: new Date(Date.now() - 600000),
+    summary: "Preparando un modelo ligero para sugerirte nuevas ideas.",
+  },
+];
 
-const QuantumDemo = () => {
-  const [circuit, setCircuit] = useState<QuantumCircuit | null>(null);
-  const [result, setResult] = useState<CircuitResult | null>(null);
-  const [isRunning, setIsRunning] = useState(false);
-  const [selectedCircuit, setSelectedCircuit] = useState<'bell' | 'ghz' | 'qft' | 'grover' | 'vqe'>('bell');
-  const [gates, setGates] = useState<GateDisplay[]>([]);
-  const [qasm, setQasm] = useState<string>('');
-  const [numQubits, setNumQubits] = useState(2);
+const QuantumBoostHub = () => {
+  const [selectedType, setSelectedType] = useState<string | null>(null);
+  const [selectedBoost, setSelectedBoost] = useState<QuantumJob["boost"] | null>(null);
+  const [jobs, setJobs] = useState<QuantumJob[]>(mockJobs);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showAdvanced, setShowAdvanced] = useState(false);
 
-  useEffect(() => {
-    loadCircuit(selectedCircuit);
-  }, [selectedCircuit]);
+  const handleBoostClick = (boostId: QuantumJob["boost"], defaultEngine: string) => {
+    setSelectedBoost(boostId);
+    setSelectedType(defaultEngine);
+    toast.message("Quantum Boost preparado", {
+      description: `Motor ${defaultEngine.toUpperCase()} seleccionado automáticamente.`,
+    });
+  };
 
-  const loadCircuit = (type: string) => {
-    let newCircuit: QuantumCircuit;
-    let newNumQubits: number;
+  const buildSummary = (boost: QuantumJob["boost"]): string => {
+    const summaries: Record<string, string> = {
+      discover: "Exploramos un espacio enorme de opciones para mostrarte solo lo que vale la pena.",
+      create: "Generamos combinaciones y patrones para inspirar tu siguiente movimiento creativo.",
+      decide: "Comparamos alternativas para ayudarte a quedarte con las mejores opciones.",
+      trust: "Analizamos señales para detectar riesgos y anomalías antes de que confíes.",
+    };
+    return summaries[boost] || "Ejecutando motor cuántico-inspirado.";
+  };
 
-    switch (type) {
-      case 'bell':
-        newCircuit = QuantumCircuits.bellState();
-        newNumQubits = 2;
-        break;
-      case 'ghz':
-        newCircuit = QuantumCircuits.ghzState(3);
-        newNumQubits = 3;
-        break;
-      case 'qft':
-        newCircuit = QuantumCircuits.qft(3);
-        newNumQubits = 3;
-        break;
-      case 'grover':
-        newCircuit = QuantumCircuits.groverIteration(3, 5);
-        newNumQubits = 3;
-        break;
-      case 'vqe':
-        newCircuit = QuantumCircuits.vqeAnsatz(2, 2);
-        newNumQubits = 2;
-        break;
-      default:
-        newCircuit = QuantumCircuits.bellState();
-        newNumQubits = 2;
+  const handleSubmitJob = async () => {
+    if (!selectedType || !selectedBoost) {
+      toast.error("Selecciona un Quantum Boost primero");
+      return;
     }
 
-    setCircuit(newCircuit);
-    setNumQubits(newNumQubits);
-    setQasm(newCircuit.toOpenQASM());
-    setResult(null);
+    setIsSubmitting(true);
+    await new Promise((resolve) => setTimeout(resolve, 800));
 
-    // Extract gates for visualization
-    const stats = newCircuit.getStats();
-    const displayGates: GateDisplay[] = [];
-    let step = 0;
+    const newJob: QuantumJob = {
+      id: `qj-${Date.now()}`,
+      type: selectedType,
+      boost: selectedBoost,
+      status: "pending",
+      progress: 0,
+      createdAt: new Date(),
+      summary: buildSummary(selectedBoost),
+    };
 
-    Object.entries(stats.gates).forEach(([gateType, count]) => {
-      for (let i = 0; i < count; i++) {
-        displayGates.push({
-          type: gateType as GateType,
-          qubit: i % newNumQubits,
-          step: step++
+    setJobs((prev) => [newJob, ...prev]);
+    setIsSubmitting(false);
+
+    toast.success("Quantum Boost enviado", { description: `Job ID: ${newJob.id}` });
+
+    // Simulate progress
+    let progress = 0;
+    const interval = setInterval(() => {
+      progress += 10;
+      setJobs((prevJobs) =>
+        prevJobs.map((job) =>
+          job.id === newJob.id
+            ? {
+                ...job,
+                status: progress < 100 ? "running" : "completed",
+                progress: Math.min(progress, 100),
+                evidence_hash:
+                  progress >= 100
+                    ? `sha512:${Math.random().toString(36).substr(2, 12)}`
+                    : job.evidence_hash,
+              }
+            : job
+        )
+      );
+      if (progress >= 100) {
+        clearInterval(interval);
+        toast.success("Quantum Boost completado ✨", {
+          description: "Evidencia registrada en BookPI™.",
         });
       }
-    });
-
-    setGates(displayGates);
-  };
-
-  const runCircuit = async () => {
-    if (!circuit) return;
-    
-    setIsRunning(true);
-    await new Promise(resolve => setTimeout(resolve, 500));
-    
-    const circuitResult = await circuit.execute(1024);
-    setResult(circuitResult);
-    setIsRunning(false);
-  };
-
-  const resetCircuit = () => {
-    loadCircuit(selectedCircuit);
-  };
-
-  const copyQASM = () => {
-    navigator.clipboard.writeText(qasm);
+    }, 800);
   };
 
   return (
-    <div className="min-h-screen pt-20 px-4 pb-12">
-      <div className="max-w-7xl mx-auto space-y-6">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-orbitron font-bold text-gradient-quantum flex items-center gap-3">
-              <Atom className="w-8 h-8 text-accent animate-pulse" />
-              Quantum Circuit Lab
-            </h1>
-            <p className="text-muted-foreground">Interactive quantum computing demonstration</p>
-          </div>
+    <div className="min-h-screen pb-12">
+      {/* Hero */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="text-center py-12 px-4 relative overflow-hidden"
+      >
+        {/* Background glow */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent/10 rounded-full blur-[120px]" />
+          <div className="absolute top-1/4 right-1/4 w-[300px] h-[300px] bg-primary/10 rounded-full blur-[80px]" />
         </div>
 
-        {/* Circuit Selector */}
-        <Card className="glass-effect p-4">
-          <div className="flex flex-wrap gap-2">
-            {[
-              { id: 'bell', name: 'Bell State', icon: Waves },
-              { id: 'ghz', name: 'GHZ State', icon: Grid3X3 },
-              { id: 'qft', name: 'QFT', icon: Activity },
-              { id: 'grover', name: 'Grover Search', icon: Target },
-              { id: 'vqe', name: 'VQE Ansatz', icon: Zap }
-            ].map((c) => (
-              <Button
-                key={c.id}
-                variant={selectedCircuit === c.id ? "default" : "outline"}
-                onClick={() => setSelectedCircuit(c.id as typeof selectedCircuit)}
-                className={selectedCircuit === c.id ? "bg-primary" : ""}
-              >
-                <c.icon className="w-4 h-4 mr-2" />
-                {c.name}
-              </Button>
-            ))}
-          </div>
-        </Card>
+        <motion.div
+          animate={{ rotateY: [0, 360] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+          className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-primary via-accent to-primary mb-6 shadow-glow"
+        >
+          <Zap className="w-10 h-10 text-primary-foreground" />
+        </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Circuit Visualization */}
-          <Card className="lg:col-span-2 glass-effect p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-orbitron font-bold">Circuit Diagram</h2>
-              <div className="flex gap-2">
-                <Button size="sm" variant="outline" onClick={resetCircuit}>
-                  <RotateCcw className="w-4 h-4 mr-1" /> Reset
-                </Button>
-                <Button 
-                  size="sm" 
-                  onClick={runCircuit} 
-                  disabled={isRunning}
-                  className="bg-accent hover:bg-accent/80"
-                >
-                  <Play className="w-4 h-4 mr-1" /> 
-                  {isRunning ? 'Running...' : 'Run'}
-                </Button>
-              </div>
-            </div>
+        <h1 className="text-5xl md:text-7xl font-orbitron font-bold text-gradient-quantum mb-4 relative z-10">
+          Quantum Boost
+        </h1>
+        <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto relative z-10">
+          El mismo poder que usan bancos, IA y gobiernos, ahora para tus decisiones, 
+          tu contenido y tu mundo digital.
+        </p>
+      </motion.div>
 
-            {/* Qubit Lines */}
-            <div className="bg-background/50 rounded-lg p-4 overflow-x-auto">
-              <div className="min-w-[500px]">
-                {Array.from({ length: numQubits }).map((_, qubitIdx) => (
-                  <div key={qubitIdx} className="flex items-center gap-2 mb-4">
-                    <div className="w-12 text-sm font-mono text-accent">|q{qubitIdx}⟩</div>
-                    <div className="flex-1 relative h-12 flex items-center">
-                      {/* Wire */}
-                      <div className="absolute inset-y-1/2 left-0 right-0 h-0.5 bg-border" />
-                      
-                      {/* Gates */}
-                      <div className="relative z-10 flex gap-2">
-                        {gates
-                          .filter(g => g.qubit === qubitIdx)
-                          .slice(0, 8)
-                          .map((gate, idx) => (
-                            <div
-                              key={idx}
-                              className={`w-10 h-10 rounded flex items-center justify-center text-white text-xs font-bold ${GATE_COLORS[gate.type] || 'bg-gray-500'}`}
-                            >
-                              {gate.type.length > 3 ? gate.type.slice(0, 2) : gate.type}
-                            </div>
-                          ))}
-                      </div>
-                    </div>
-                    <div className="w-8 h-8 rounded-full border-2 border-muted flex items-center justify-center">
-                      <div className="w-2 h-2 bg-accent rounded-full" />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+      <div className="max-w-7xl mx-auto px-4 space-y-8">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+          {/* Left: Boost Cards + Advanced */}
+          <div className="lg:col-span-3 space-y-6">
+            <QuantumBoostCards
+              selectedBoost={selectedBoost}
+              selectedType={selectedType}
+              isSubmitting={isSubmitting}
+              onBoostClick={handleBoostClick}
+              onSubmit={handleSubmitJob}
+            />
 
-            {/* Gate Legend */}
-            <div className="mt-4 flex flex-wrap gap-2">
-              {Object.entries(GATE_COLORS).slice(0, 6).map(([gate, color]) => (
-                <Badge key={gate} className={`${color} text-white`}>
-                  {gate}
-                </Badge>
-              ))}
-            </div>
-          </Card>
+            <QuantumAdvancedPanel
+              showAdvanced={showAdvanced}
+              selectedType={selectedType}
+              onToggle={() => setShowAdvanced(!showAdvanced)}
+              onSelectType={setSelectedType}
+            />
 
-          {/* Results Panel */}
-          <Card className="glass-effect p-6">
-            <h2 className="text-xl font-orbitron font-bold mb-4">Results</h2>
-            
-            {result ? (
-              <div className="space-y-4">
-                {/* Execution Time */}
+            {/* BookPI Evidence footer */}
+            <Card className="glass-effect p-4 border-accent/20">
+              <div className="flex items-start gap-3">
+                <BookOpen className="w-5 h-5 text-accent mt-0.5 shrink-0" />
                 <div>
-                  <p className="text-sm text-muted-foreground mb-1">Execution Time</p>
-                  <p className="text-2xl font-orbitron text-accent">
-                    {result.executionTime.toFixed(2)}ms
+                  <p className="text-sm font-medium text-foreground">Evidencia verificable BookPI™</p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Cada Quantum Boost genera un hash criptográfico, registrado en BookPI™, 
+                    para que puedas demostrar qué hiciste y cuándo. Auditabilidad civilizatoria total.
                   </p>
                 </div>
-
-                {/* Shots */}
-                <div>
-                  <p className="text-sm text-muted-foreground mb-1">Shots</p>
-                  <p className="text-lg font-mono">{result.shots}</p>
-                </div>
-
-                {/* Measurement Results */}
-                <div>
-                  <p className="text-sm text-muted-foreground mb-2">Measurement Counts</p>
-                  <div className="space-y-2 max-h-48 overflow-y-auto">
-                    {result.counts && Object.entries(result.counts)
-                      .sort((a, b) => b[1] - a[1])
-                      .slice(0, 8)
-                      .map(([state, count]) => (
-                        <div key={state} className="flex items-center gap-2">
-                          <code className="text-sm text-accent font-mono">|{state}⟩</code>
-                          <Progress value={(count / result.shots) * 100} className="flex-1 h-2" />
-                          <span className="text-xs text-muted-foreground w-12 text-right">
-                            {((count / result.shots) * 100).toFixed(1)}%
-                          </span>
-                        </div>
-                      ))}
-                  </div>
-                </div>
-
-                {/* Probabilities */}
-                <div>
-                  <p className="text-sm text-muted-foreground mb-2">State Probabilities</p>
-                  <div className="grid grid-cols-4 gap-1">
-                    {result.probabilities.slice(0, 8).map((prob, i) => (
-                      <div 
-                        key={i} 
-                        className="p-1 rounded text-center text-xs"
-                        style={{ 
-                          backgroundColor: `hsla(180, 100%, 50%, ${prob})`,
-                          color: prob > 0.5 ? 'black' : 'white'
-                        }}
-                      >
-                        {(prob * 100).toFixed(0)}%
-                      </div>
-                    ))}
-                  </div>
-                </div>
               </div>
-            ) : (
-              <div className="text-center py-12 text-muted-foreground">
-                <Atom className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                <p>Run the circuit to see results</p>
-              </div>
-            )}
-          </Card>
+            </Card>
+          </div>
+
+          {/* Right: Job History */}
+          <div className="lg:col-span-2">
+            <QuantumJobHistory jobs={jobs} />
+          </div>
         </div>
-
-        {/* OpenQASM Output */}
-        <Card className="glass-effect p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-orbitron font-bold">OpenQASM 3.0</h2>
-            <div className="flex gap-2">
-              <Button size="sm" variant="outline" onClick={copyQASM}>
-                <Copy className="w-4 h-4 mr-1" /> Copy
-              </Button>
-              <Button size="sm" variant="outline">
-                <Download className="w-4 h-4 mr-1" /> Export
-              </Button>
-            </div>
-          </div>
-          
-          <pre className="bg-background/50 rounded-lg p-4 text-sm font-mono text-green-400 overflow-x-auto max-h-48">
-            {qasm}
-          </pre>
-        </Card>
-
-        {/* Circuit Stats */}
-        {circuit && (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              { label: "Qubits", value: circuit.getStats().qubits, color: "text-purple-400" },
-              { label: "Circuit Depth", value: circuit.getStats().depth, color: "text-cyan-400" },
-              { label: "Total Gates", value: circuit.getStats().gateCount, color: "text-pink-400" },
-              { label: "Gate Types", value: Object.keys(circuit.getStats().gates).length, color: "text-green-400" }
-            ].map((stat, i) => (
-              <Card key={i} className="glass-effect p-4 text-center">
-                <p className={`text-3xl font-orbitron font-bold ${stat.color}`}>{stat.value}</p>
-                <p className="text-sm text-muted-foreground">{stat.label}</p>
-              </Card>
-            ))}
-          </div>
-        )}
       </div>
     </div>
   );
 };
 
-export default QuantumDemo;
+export default QuantumBoostHub;
