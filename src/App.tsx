@@ -41,6 +41,7 @@ import FederatedDashboard from "./pages/FederatedDashboard";
 import QuantumDemo from "./pages/QuantumDemo";
 import Render4D from "./pages/Render4D";
 import GuardiansCenter from "./pages/GuardiansCenter";
+import DigitalPets from "./pages/DigitalPets";
 
 const queryClient = new QueryClient();
 
@@ -89,6 +90,7 @@ const App = () => (
               <Route path="/quantum-demo" element={<QuantumDemo />} />
               <Route path="/render-4d" element={<Render4D />} />
               <Route path="/guardians" element={<GuardiansCenter />} />
+              <Route path="/pets" element={<DigitalPets />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </QuantumLayout>
