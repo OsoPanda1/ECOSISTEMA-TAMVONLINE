@@ -5,8 +5,10 @@
     "module": "ESNext",
     "moduleResolution": "node",
     "moduleDetection": "force",
-    "composite": true,
+    "composite": true,                 // ✅ requerido cuando hay references
     "outDir": "dist-node",
+    "emitDeclarationOnly": true,      // ✅ genera solo .d.ts para el referenciado
+    "declaration": true,              // asegura que se emitan .d.ts
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
