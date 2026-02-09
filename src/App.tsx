@@ -42,6 +42,9 @@ import QuantumDemo from "./pages/QuantumDemo";
 import Render4D from "./pages/Render4D";
 import GuardiansCenter from "./pages/GuardiansCenter";
 import DigitalPets from "./pages/DigitalPets";
+import Trueque from "./pages/Trueque";
+import Auctions from "./pages/Auctions";
+import DAOGovernance from "./pages/DAOGovernance";
 
 const queryClient = new QueryClient();
 
