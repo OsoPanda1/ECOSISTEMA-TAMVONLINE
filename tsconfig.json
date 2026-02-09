@@ -9,7 +9,7 @@
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
+    "noEmit": true,                // ✅ este sigue sólo para type-check (Vite/ bundler)
     "jsx": "react-jsx",
     "strict": true,
     "noUnusedLocals": true,
@@ -21,6 +21,6 @@
   },
   "include": ["src"],
   "references": [
-    { "path": "./tsconfig.node.json" }
+    { "path": "./tsconfig.node.json" }   // ✅ permitido porque el referido SÍ emite declaraciones
   ]
 }
