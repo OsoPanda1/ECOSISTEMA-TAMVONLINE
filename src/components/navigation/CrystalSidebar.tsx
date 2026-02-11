@@ -51,9 +51,10 @@ const sections: NavSection[] = [
     icon: Users,
     items: [
       { id: "global-wall", label: "Muro Global", icon: MessageSquare, path: "/global-wall" },
+      { id: "community", label: "Comunidad", icon: Globe, path: "/community" },
       { id: "chats", label: "Chats", icon: Users, path: "/chats", badge: 5 },
-      { id: "gallery", label: "Gallery", icon: Image, path: "/gallery" },
-      { id: "groups", label: "Groups", icon: Users, path: "/groups" },
+      { id: "gallery", label: "Galería", icon: Image, path: "/gallery" },
+      { id: "groups", label: "Grupos", icon: Users, path: "/groups" },
     ],
   },
   {
@@ -61,8 +62,8 @@ const sections: NavSection[] = [
     label: "Contenido",
     icon: BookOpen,
     items: [
-      { id: "projects", label: "Projects", icon: BookOpen, path: "/projects" },
-      { id: "university", label: "University", icon: GraduationCap, path: "/university" },
+      { id: "projects", label: "Proyectos", icon: BookOpen, path: "/projects" },
+      { id: "university", label: "Universidad", icon: GraduationCap, path: "/university" },
       { id: "kaos", label: "Audio Kaos", icon: Music, path: "/audio-kaos", premium: true },
       { id: "manifest", label: "Manifiesto", icon: FileText, path: "/manifest" },
       { id: "bookpi", label: "BookPI™", icon: FileText, path: "/bookpi", premium: true },
@@ -75,10 +76,25 @@ const sections: NavSection[] = [
     items: [
       { id: "wallet", label: "Wallet", icon: Wallet, path: "/wallet" },
       { id: "nubiwallet", label: "Nubiwallet", icon: Wallet, path: "/nubiwallet", premium: true },
-      { id: "lottery", label: "Lottery", icon: Gift, path: "/lottery", badge: 1 },
+      { id: "marketplace", label: "Marketplace", icon: ShoppingBag, path: "/marketplace" },
+      { id: "trueque", label: "Trueque P2P", icon: ArrowRightLeft, path: "/trueque" },
+      { id: "auctions", label: "Subastas", icon: Gavel, path: "/auctions" },
+      { id: "lottery", label: "Lotería", icon: Gift, path: "/lottery", badge: 1 },
       { id: "lottery-vrf", label: "Lotería VRF", icon: Gift, path: "/lottery-vrf" },
-      { id: "referrals", label: "Referrals", icon: TrendingUp, path: "/referrals" },
+      { id: "referrals", label: "Referidos", icon: TrendingUp, path: "/referrals" },
       { id: "games", label: "Games", icon: Gamepad2, path: "/games" },
+    ],
+  },
+  {
+    id: "governance",
+    label: "Gobernanza",
+    icon: Crown,
+    items: [
+      { id: "dao", label: "DAO Dekateotl", icon: Vote, path: "/dao", premium: true },
+      { id: "guardians", label: "Guardianes", icon: Shield, path: "/guardians" },
+      { id: "federation", label: "Federación", icon: Globe, path: "/federation", premium: true },
+      { id: "msr", label: "MSR Blockchain", icon: Shield, path: "/msr-blockchain" },
+      { id: "truth", label: "Verdad Dashboard", icon: Shield, path: "/truth-dashboard" },
     ],
   },
   {
@@ -86,12 +102,10 @@ const sections: NavSection[] = [
     label: "Sistema",
     icon: Settings,
     items: [
-      { id: "profile", label: "Profile", icon: Users, path: "/profile" },
-      { id: "security", label: "Security", icon: Shield, path: "/security" },
-      { id: "msr", label: "MSR Blockchain", icon: Shield, path: "/msr-blockchain" },
-      { id: "truth", label: "Dashboard Verdad", icon: Shield, path: "/truth-dashboard" },
-      { id: "settings", label: "Settings", icon: Settings, path: "/settings" },
-      { id: "help", label: "Help", icon: HelpCircle, path: "/help" },
+      { id: "profile", label: "Perfil", icon: Users, path: "/profile" },
+      { id: "security", label: "Seguridad", icon: Shield, path: "/security" },
+      { id: "settings", label: "Ajustes", icon: Settings, path: "/settings" },
+      { id: "help", label: "Ayuda", icon: HelpCircle, path: "/help" },
     ],
   },
 ];

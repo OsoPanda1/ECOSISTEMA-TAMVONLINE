@@ -94,6 +94,9 @@ const App = () => (
               <Route path="/render-4d" element={<Render4D />} />
               <Route path="/guardians" element={<GuardiansCenter />} />
               <Route path="/pets" element={<DigitalPets />} />
+              <Route path="/trueque" element={<Trueque />} />
+              <Route path="/auctions" element={<Auctions />} />
+              <Route path="/dao" element={<DAOGovernance />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </QuantumLayout>
