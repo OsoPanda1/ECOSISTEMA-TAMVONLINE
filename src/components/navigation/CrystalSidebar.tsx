@@ -6,7 +6,7 @@ import {
   Sparkles, Gamepad2, Music, Gift, TrendingUp,
   BookOpen, Zap, Heart, Star, Crown, Shield,
   MessageSquare, Image, FileText, ChevronDown, Menu, X,
-  PawPrint, Atom
+  PawPrint, Atom, ArrowRightLeft, Gavel, Vote, Globe
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
