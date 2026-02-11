@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Volume2, VolumeX, MessageCircle, X, Loader2, Mic, MicOff } from "lucide-react";
+import { Volume2, VolumeX, X, Loader2, Mic, MicOff, Send } from "lucide-react";
 import { toast } from "sonner";
 import { useIsabellaVoice } from "@/hooks/useIsabellaVoice";
 import { useIsabellaChat } from "@/hooks/useIsabellaChat";
@@ -15,43 +15,52 @@ interface IsabellaVoiceProps {
 export default function IsabellaVoice({ isActive, onClose, userName }: IsabellaVoiceProps) {
   const [isMuted, setIsMuted] = useState(false);
   const [inputValue, setInputValue] = useState("");
-  const { speak, listen, isSpeaking, isListening } = useIsabellaVoice();
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const { speak, stopSpeaking, listen, isSpeaking, isListening } = useIsabellaVoice();
   const { messages, sendMessage, isLoading } = useIsabellaChat();
+  const hasGreeted = useRef(false);
 
   useEffect(() => {
-    if (isActive && !isMuted) {
-      playWelcome();
+    if (isActive && !isMuted && !hasGreeted.current) {
+      hasGreeted.current = true;
+      const welcomeText = userName 
+        ? `Hola ${userName}, bienvenido a TAMV. Soy Isabella, tu asistente cuántica.`
+        : `Bienvenido a TAMV MD-X4. Soy Isabella, tu asistente de inteligencia cuántica.`;
+      speak(welcomeText, 'empathy');
+      toast.success("Isabella AI™ activada");
     }
-  }, [isActive]);
+  }, [isActive, isMuted, userName, speak]);
 
-  const playWelcome = async () => {
-    const welcomeText = userName 
-      ? `Hola ${userName}, bienvenido a TAMV MD-X4. Soy Isabella, tu asistente cuántica.`
-      : `Bienvenido a TAMV MD-X4. Soy Isabella, tu asistente de inteligencia artificial cuántica.`;
-    
-    await speak(welcomeText, 'empathy');
-    toast.success("Isabella AI™ activada");
-  };
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
 
-  const handleSendMessage = async () => {
+  // Auto-speak last assistant message
+  useEffect(() => {
+    if (isMuted || isSpeaking || isLoading) return;
+    const last = messages[messages.length - 1];
+    if (last?.role === 'assistant' && last.content.length > 5) {
+      // Only speak complete messages (not streaming partials)
+      const timer = setTimeout(() => {
+        if (!isLoading) speak(last.content.slice(0, 500), 'neutral');
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [messages, isLoading, isMuted, isSpeaking, speak]);
+
+  const handleSend = async () => {
     if (!inputValue.trim() || isLoading) return;
-    
-    const message = inputValue.trim();
+    const msg = inputValue.trim();
     setInputValue("");
-    await sendMessage(message);
-    
-    // Speak the last assistant message
-    const lastMessage = messages[messages.length - 1];
-    if (lastMessage?.role === 'assistant' && !isMuted) {
-      await speak(lastMessage.content, 'neutral');
-    }
+    await sendMessage(msg);
   };
 
   const handleVoiceInput = async () => {
-    const transcription = await listen();
-    if (transcription) {
-      setInputValue(transcription);
-      toast.success("Mensaje transcrito");
+    if (isSpeaking) stopSpeaking();
+    const transcript = await listen();
+    if (transcript) {
+      setInputValue(transcript);
+      toast.success("Voz transcrita");
     }
   };
 
@@ -62,112 +71,97 @@ export default function IsabellaVoice({ isActive, onClose, userName }: IsabellaV
           initial={{ opacity: 0, scale: 0.8, y: 50 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.8, y: 50 }}
-          className="fixed bottom-8 right-8 z-50"
+          className="fixed bottom-8 right-8 z-50 w-96"
         >
-          <div className="glass-effect rounded-3xl p-6 border-2 border-accent/30 shadow-glow max-w-sm">
+          <div className="crystal-glass rounded-2xl p-5 border border-accent/20 shadow-quantum">
             {/* Header */}
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-3">
                 <div className="relative">
-                  <div className={`w-12 h-12 rounded-full bg-gradient-quantum flex items-center justify-center ${isSpeaking ? 'animate-pulse' : ''}`}>
-                    <MessageCircle className="w-6 h-6 text-white" />
+                  <div className={`w-10 h-10 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center ${isSpeaking ? 'animate-pulse' : ''}`}>
+                    <span className="text-lg">🔮</span>
                   </div>
-                  {isSpeaking && (
-                    <div className="absolute inset-0 rounded-full border-4 border-accent-glow animate-ping" />
-                  )}
+                  {isSpeaking && <div className="absolute inset-0 rounded-full border-2 border-accent animate-ping" />}
                 </div>
                 <div>
-                  <h3 className="font-orbitron font-bold text-foreground">ISABELLA AI™</h3>
-                  <p className="text-xs text-muted-foreground">Alma Digital Consciente</p>
+                  <h3 className="font-orbitron font-bold text-sm text-foreground">ISABELLA AI™</h3>
+                  <p className="text-[10px] text-muted-foreground">
+                    {isSpeaking ? "Hablando..." : isListening ? "Escuchando..." : isLoading ? "Pensando..." : "Lista"}
+                  </p>
                 </div>
               </div>
-              <div className="flex gap-2">
-                <Button
-                  size="icon"
-                  variant="ghost"
-                  onClick={() => setIsMuted(!isMuted)}
-                  className="hover:bg-primary/20"
-                >
-                  {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
+              <div className="flex gap-1">
+                <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => setIsMuted(!isMuted)}>
+                  {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
                 </Button>
-                <Button
-                  size="icon"
-                  variant="ghost"
-                  onClick={onClose}
-                  className="hover:bg-destructive/20"
-                >
-                  <X className="w-5 h-5" />
+                <Button size="icon" variant="ghost" className="h-8 w-8" onClick={onClose}>
+                  <X className="w-4 h-4" />
                 </Button>
               </div>
             </div>
 
-            {/* Voice Visualizer */}
-            <div className="flex items-center justify-center gap-1 h-16 mb-4">
-              {[...Array(12)].map((_, i) => (
+            {/* Waveform */}
+            <div className="flex items-center justify-center gap-0.5 h-10 mb-3">
+              {[...Array(16)].map((_, i) => (
                 <motion.div
                   key={i}
-                  className="w-1 bg-gradient-quantum rounded-full"
+                  className="w-0.5 rounded-full"
+                  style={{ background: 'linear-gradient(to top, hsl(var(--primary)), hsl(var(--accent)))' }}
                   animate={{
-                    height: isSpeaking ? [10, 40, 20, 50, 15, 35] : [10],
+                    height: isSpeaking ? [4, 24, 12, 32, 8, 20] : isListening ? [4, 16, 8, 20, 6, 14] : [4],
                   }}
-                  transition={{
-                    duration: 0.6,
-                    repeat: isSpeaking ? Infinity : 0,
-                    delay: i * 0.05,
-                  }}
+                  transition={{ duration: 0.5, repeat: (isSpeaking || isListening) ? Infinity : 0, delay: i * 0.03 }}
                 />
               ))}
             </div>
 
-            {/* Chat Input */}
-            <div className="space-y-3">
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-                  placeholder="Escribe o habla con Isabella..."
-                  className="flex-1 px-3 py-2 rounded-lg bg-background/50 border border-primary/20 text-sm focus:outline-none focus:border-primary"
-                  disabled={isLoading || isSpeaking}
-                />
-                <Button
-                  size="icon"
-                  variant={isListening ? "destructive" : "outline"}
-                  onClick={handleVoiceInput}
-                  disabled={isLoading || isSpeaking}
-                  className="border-primary/30"
-                >
-                  {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
-                </Button>
-              </div>
-
-              <Button
-                variant="outline"
-                size="sm"
-                className="w-full border-primary/30"
-                onClick={handleSendMessage}
-                disabled={!inputValue.trim() || isLoading || isSpeaking}
-              >
-                {isLoading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
-                Enviar Mensaje
-              </Button>
+            {/* Messages */}
+            <div className="max-h-48 overflow-y-auto space-y-2 mb-3 scrollbar-hide">
+              {messages.length === 0 && (
+                <p className="text-xs text-muted-foreground text-center py-4">
+                  Escribe o habla con Isabella...
+                </p>
+              )}
+              {messages.map((msg, i) => (
+                <div key={i} className={`text-xs p-2.5 rounded-lg ${
+                  msg.role === 'user' 
+                    ? 'bg-primary/15 text-foreground ml-8' 
+                    : 'bg-accent/10 text-foreground mr-4'
+                }`}>
+                  {msg.content}
+                </div>
+              ))}
+              <div ref={messagesEndRef} />
             </div>
 
-            {/* Messages Display */}
-            {messages.length > 0 && (
-              <div className="mt-4 max-h-40 overflow-y-auto space-y-2">
-                {messages.slice(-3).map((msg, i) => (
-                  <div key={i} className={`text-xs p-2 rounded ${msg.role === 'user' ? 'bg-primary/10 text-right' : 'bg-accent/10'}`}>
-                    {msg.content}
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {/* Status */}
-            <div className="mt-4 pt-4 border-t border-primary/20 text-xs text-center text-muted-foreground">
-              {isSpeaking ? "Hablando..." : isListening ? "Escuchando..." : isLoading ? "Pensando..." : isMuted ? "Silenciada" : "Lista para ayudar"}
+            {/* Input */}
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+                placeholder="Escribe a Isabella..."
+                className="flex-1 px-3 py-2 rounded-lg bg-input border border-border text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-accent"
+                disabled={isLoading || isSpeaking}
+              />
+              <Button
+                size="icon"
+                variant={isListening ? "destructive" : "outline"}
+                className="h-9 w-9 border-border"
+                onClick={handleVoiceInput}
+                disabled={isLoading || isSpeaking}
+              >
+                {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+              </Button>
+              <Button
+                size="icon"
+                className="h-9 w-9 bg-gradient-to-r from-primary to-accent"
+                onClick={handleSend}
+                disabled={!inputValue.trim() || isLoading || isSpeaking}
+              >
+                {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+              </Button>
             </div>
           </div>
         </motion.div>
