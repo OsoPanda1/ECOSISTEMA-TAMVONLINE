@@ -1,114 +1,116 @@
-import { useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { useState, useRef, useCallback } from "react";
 import { toast } from "sonner";
 
-export type EmotionalContext = 'empathy' | 'guidance' | 'celebration' | 'neutral';
+export type EmotionalContext = 'empathy' | 'guidance' | 'celebration' | 'calm' | 'urgency' | 'neutral';
 
 export function useIsabellaVoice() {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isListening, setIsListening] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const speak = async (text: string, emotion: EmotionalContext = 'neutral') => {
+  const speak = useCallback(async (text: string, emotion: EmotionalContext = 'neutral') => {
     try {
       setIsSpeaking(true);
 
-      const { data, error } = await supabase.functions.invoke('isabella-speak', {
-        body: { text, emotion },
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/isabella-speak`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+            'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+          },
+          body: JSON.stringify({ text, emotion }),
+        }
+      );
 
-      if (error) throw error;
+      if (!response.ok) throw new Error(`TTS error: ${response.status}`);
+
+      const data = await response.json();
 
       if (data?.audio) {
-        const audioData = atob(data.audio);
-        const arrayBuffer = new ArrayBuffer(audioData.length);
-        const view = new Uint8Array(arrayBuffer);
-        for (let i = 0; i < audioData.length; i++) {
-          view[i] = audioData.charCodeAt(i);
-        }
-
-        const blob = new Blob([arrayBuffer], { type: 'audio/mpeg' });
-        const url = URL.createObjectURL(blob);
-        const audio = new Audio(url);
+        // Use data URI — browser natively decodes base64 audio without corruption
+        const audioUrl = `data:audio/mpeg;base64,${data.audio}`;
+        const audio = new Audio(audioUrl);
+        audioRef.current = audio;
 
         audio.onended = () => {
           setIsSpeaking(false);
-          URL.revokeObjectURL(url);
+          audioRef.current = null;
+        };
+        audio.onerror = () => {
+          setIsSpeaking(false);
+          audioRef.current = null;
         };
 
         await audio.play();
+      } else {
+        setIsSpeaking(false);
       }
     } catch (error) {
-      console.error('Error speaking:', error);
+      console.error('Isabella speak error:', error);
       toast.error('Error al reproducir voz de Isabella');
       setIsSpeaking(false);
     }
-  };
+  }, []);
 
-  const listen = async (): Promise<string | null> => {
-    try {
-      setIsListening(true);
+  const stopSpeaking = useCallback(() => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current = null;
+    }
+    setIsSpeaking(false);
+  }, []);
+
+  // Browser-native Web Speech API for STT (no external API needed)
+  const listen = useCallback((): Promise<string | null> => {
+    return new Promise((resolve) => {
+      const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
       
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
-      const chunks: Blob[] = [];
+      if (!SpeechRecognition) {
+        toast.error('Tu navegador no soporta reconocimiento de voz. Usa Chrome o Edge.');
+        resolve(null);
+        return;
+      }
 
-      mediaRecorder.ondataavailable = (e) => {
-        if (e.data.size > 0) {
-          chunks.push(e.data);
-        }
+      setIsListening(true);
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'es-MX';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+      recognition.continuous = false;
+
+      recognition.onresult = (event: any) => {
+        const transcript = event.results[0][0].transcript;
+        setIsListening(false);
+        resolve(transcript);
       };
 
-      return new Promise((resolve, reject) => {
-        mediaRecorder.onstop = async () => {
-          stream.getTracks().forEach(track => track.stop());
-          setIsListening(false);
+      recognition.onerror = (event: any) => {
+        console.error('Speech recognition error:', event.error);
+        if (event.error !== 'no-speech') {
+          toast.error('Error en reconocimiento de voz');
+        }
+        setIsListening(false);
+        resolve(null);
+      };
 
-          const blob = new Blob(chunks, { type: 'audio/webm' });
-          const reader = new FileReader();
+      recognition.onend = () => {
+        setIsListening(false);
+      };
 
-          reader.onloadend = async () => {
-            const base64Audio = (reader.result as string).split(',')[1];
+      recognition.start();
+    });
+  }, []);
 
-            try {
-              const { data, error } = await supabase.functions.invoke('isabella-listen', {
-                body: { audio: base64Audio },
-              });
-
-              if (error) throw error;
-              resolve(data?.text || null);
-            } catch (error) {
-              console.error('Error transcribing:', error);
-              toast.error('Error al procesar audio');
-              reject(error);
-            }
-          };
-
-          reader.readAsDataURL(blob);
-        };
-
-        mediaRecorder.start();
-        
-        // Auto-stop after 10 seconds
-        setTimeout(() => {
-          if (mediaRecorder.state === 'recording') {
-            mediaRecorder.stop();
-          }
-        }, 10000);
-      });
-    } catch (error) {
-      console.error('Error accessing microphone:', error);
-      toast.error('No se pudo acceder al micrófono');
-      setIsListening(false);
-      return null;
-    }
-  };
-
-  const stopListening = () => {
+  const stopListening = useCallback(() => {
     setIsListening(false);
-  };
+  }, []);
 
   return {
     speak,
+    stopSpeaking,
     listen,
     stopListening,
     isSpeaking,
