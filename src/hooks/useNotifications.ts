@@ -41,7 +41,9 @@ export function useNotifications() {
       const typedData = (data || []).map(n => ({
         ...n,
         type: n.type as Notification['type'],
-        metadata: (n.metadata || {}) as Record<string, unknown>
+        is_read: n.is_read ?? false,
+        metadata: (n.metadata || {}) as Record<string, unknown>,
+        created_at: n.created_at ?? new Date().toISOString(),
       }));
 
       setNotifications(typedData);
