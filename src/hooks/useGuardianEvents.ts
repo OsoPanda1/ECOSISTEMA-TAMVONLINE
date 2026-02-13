@@ -49,7 +49,9 @@ export function useGuardianEvents() {
         ...e,
         guardian_name: e.guardian_name as GuardianEvent['guardian_name'],
         severity: (e.severity || 'info') as GuardianEvent['severity'],
-        details: (e.details || {}) as Record<string, unknown>
+        details: (e.details || {}) as Record<string, unknown>,
+        resolved: e.resolved ?? false,
+        created_at: e.created_at ?? new Date().toISOString(),
       }));
 
       setEvents(typedData);

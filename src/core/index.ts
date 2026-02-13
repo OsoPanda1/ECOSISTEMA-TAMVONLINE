@@ -40,3 +40,6 @@ export { securityLayer } from './security/SecurityLayer';
 
 // Knowledge System
 export * from './knowledge';
+
+// Kernel L0-L1 (Ontological & Constitutional)
+export * from './kernel';

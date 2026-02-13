@@ -14,8 +14,8 @@ interface Profile {
   full_name: string | null;
   avatar_url: string | null;
   bio: string | null;
-  verified: boolean;
-  resonance_score: number;
+  verified: boolean | null;
+  resonance_score: number | null;
 }
 
 export default function Community() {

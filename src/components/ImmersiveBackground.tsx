@@ -2,7 +2,7 @@
 import { useRef, useMemo, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Points, PointMaterial, OrbitControls } from '@react-three/drei';
-import type { Points as PointsType } from 'three';
+import type { Points as PointsType, Mesh, MeshStandardMaterial } from 'three';
 
 type Phase = 'matrix' | 'shape' | 'spectral';
 
@@ -112,13 +112,13 @@ function MatrixPoints({ phase }: { phase: Phase }) {
 }
 
 function SpectralAura({ phase }: { phase: Phase }) {
-  const ref = useRef<THREE.Mesh>(null);
+  const ref = useRef<Mesh>(null);
 
   useFrame((state) => {
     if (!ref.current) return;
     const t = state.clock.elapsedTime;
 
-    const mat = ref.current.material as THREE.MeshStandardMaterial;
+    const mat = ref.current.material as MeshStandardMaterial;
     // Pulsos espectrales
     const hue = (t * 0.08) % 1;
     const s = 0.9;
