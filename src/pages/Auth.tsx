@@ -152,7 +152,7 @@ export default function Auth() {
     try {
       const result = await authenticateWithPasskey();
       
-      if (result?.verified) {
+      if (result) {
         toast.success("¡Autenticación biométrica exitosa!");
         navigate("/");
       } else {
